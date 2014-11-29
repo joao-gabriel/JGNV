@@ -2,7 +2,10 @@ Jobs General Noting and Viewing
 (provisory name)
 
 
-Used technologies:
+Utilized technologies:
+
 Twitter Boostrap
+
 CakePHP
+
 MySQL
