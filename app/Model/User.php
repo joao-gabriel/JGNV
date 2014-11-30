@@ -125,7 +125,8 @@ class User extends AppModel {
       'Activity' => array(
           'className' => 'Activity',
           'foreign_key' => 'model_id',
-          'conditions' => array('model' => 'User')
+          'conditions' => array('model' => 'User'),
+          'limit' => '40'
       )
   );
 
@@ -159,6 +160,5 @@ class User extends AppModel {
     }
     return true;
   }
-
 
 }
