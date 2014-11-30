@@ -116,25 +116,5 @@ class Project extends AppModel {
 	);
 
 
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	public $hasAndBelongsToMany = array(
-		'Task' => array(
-			'className' => 'Task',
-			'joinTable' => 'projects_tasks',
-			'foreignKey' => 'project_id',
-			'associationForeignKey' => 'task_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		)
-	);
 
 }

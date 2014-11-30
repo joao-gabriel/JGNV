@@ -83,8 +83,7 @@ class ProjectsController extends AppController {
 			$this->request->data = $this->Project->find('first', $options);
 		}
 		$users = $this->Project->User->find('list');
-		$tasks = $this->Project->Task->find('list');
-		$this->set(compact('users', 'tasks'));
+		$this->set(compact('users'));
 	}
 
 /**

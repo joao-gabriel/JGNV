@@ -9,11 +9,16 @@
     <?php
     echo $this->Html->meta('icon');
     echo $this->Html->css('bootstrap.min');
+
+    
     echo $this->Html->css('dashboard');
     echo $this->Html->css('custom.style');
+    
+        echo $this->Html->css('bootstrap-datetimepicker');
     echo $this->fetch('meta');
     echo $this->fetch('css');
     ?>
+    <link rel="stylesheet" type="text/css" media="screen" href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.min.css" />
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -46,7 +51,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
           <?php echo $this->Session->flash('auth'); ?>
-          
+
           <?php echo $content_for_layout; ?>
 
           <?php echo $this->element('sql_dump'); ?>
@@ -55,11 +60,12 @@
     </div> 
     <div class="clearfix"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
     <?php
     echo $this->Html->script('bootstrap.min');
+    echo $this->Html->script('bootstrap-datetimepicker.min');
     echo $this->Html->script('custom');
     echo $this->fetch('script');
     ?>
-
   </body>
 </html>

@@ -26,10 +26,12 @@
     </div> <!-- /container -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <?php
-    
     echo $this->Html->script('bootstrap.min');
-//    echo $this->Html->script('custom');
     echo $this->fetch('script');
     ?>
+    <script>
+      $('.message').addClass('label label-danger center-block bottom30');
+    </script>
+
   </body>
 </html>

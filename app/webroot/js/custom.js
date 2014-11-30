@@ -9,6 +9,15 @@ $(document).ready(function() {
   $('input[type="submit"]').removeClass('form-control').addClass('btn btn-default');
   $('dd').addClass('mb20');
   $('.message').addClass('label label-danger center-block bottom30');
+
+
+  if ($('.datefield').length > 0) {
+    $('.datefield').datetimepicker({
+      todayBtn: true,
+      todayHighlight: true
+    });
+  }
+
 });
 
 

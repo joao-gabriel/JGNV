@@ -8,13 +8,10 @@
 		echo $this->Form->input('project_id');
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
-		echo $this->Form->input('expected_start_date');
-		echo $this->Form->input('expected_deadline');
-		echo $this->Form->input('start_date');
-		echo $this->Form->input('finish_date');
-		echo $this->Form->input('status');
-		echo $this->Form->input('Recipient');
-		echo $this->Form->input('Project');
+		echo $this->Form->input('expected_start_date', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
+		echo $this->Form->input('expected_deadline', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
+		echo $this->Form->input('status', array('value' => 0));
+		echo $this->Form->input('recipient_id', array('label' => 'User in charge'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
