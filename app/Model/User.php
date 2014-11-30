@@ -3,7 +3,6 @@
 App::uses('AppModel', 'Model');
 App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
-
 /**
  * User Model
  *
@@ -122,6 +121,11 @@ class User extends AppModel {
       'Taskto' => array(
           'className' => 'Task',
           'foreignKey' => 'recipient_id'
+      ),
+      'Activity' => array(
+          'className' => 'Activity',
+          'foreign_key' => 'model_id',
+          'conditions' => array('model' => 'User')
       )
   );
 
@@ -155,5 +159,6 @@ class User extends AppModel {
     }
     return true;
   }
+
 
 }

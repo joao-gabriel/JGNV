@@ -1,6 +1,14 @@
 $(document).ready(function() {
+
+
   // Add bootstrap styling
-  $('table').addClass('table table-striped table-responsive');
+  var responsiveTableWarning = $('\
+  <div class="alert alert-warning table-responsive-warning" style="display: none">\
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\
+    You\'re on a small screen device. You may have to slide the table below horizontally to see all of its columns.\
+  </div>');
+
+  $('table').addClass('table table-striped').wrap('<div class="table-responsive"></div>').before(responsiveTableWarning);
   $('.actions').addClass('col-sm-3 col-md-2 sidebar');
   $('.actions ul').addClass('nav nan-sidebar');
   $('label').addClass('show');
@@ -10,6 +18,9 @@ $(document).ready(function() {
   $('input[type="checkbox"]').removeClass('form-control');
   $('dd').addClass('mb20');
   $('.message').addClass('label label-danger center-block bottom30');
+
+
+  // Add telephone mask
   var SPMaskBehavior = function(val) {
     return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
   },
@@ -18,9 +29,10 @@ $(document).ready(function() {
       field.mask(SPMaskBehavior.apply({}, arguments), options);
     }
   };
-
   $('input[type=tel]').mask(SPMaskBehavior, spOptions);
 
+
+  // Add datetimepicker
   if ($('.datefield').length > 0) {
     $('.datefield').datetimepicker({
       todayBtn: true,

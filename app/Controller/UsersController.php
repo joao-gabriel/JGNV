@@ -125,6 +125,15 @@ class UsersController extends AppController {
 
     if ($this->request->is('post')) {
       if ($this->Auth->login()) {
+
+        $this->User->Activity->create();
+        $data = array('Activity' => array(
+                'user_id' => AuthComponent::user('id'),
+                'type' => _ACTIVITY_TYPE_LOGIN, // Start of an Activity
+                'model' => 'User',
+                'model_id' => AuthComponent::user('id')
+        ));
+        $this->User->Activity->save($data);
         return $this->redirect($this->Auth->redirect());
       }
       $this->Session->setFlash(__('Invalid username or password, try again'));
@@ -132,7 +141,36 @@ class UsersController extends AppController {
   }
 
   public function logout() {
-    return $this->redirect($this->Auth->logout());
+    
+    $userId = AuthComponent::user('id');
+    
+    if ($this->Auth->logout()) {
+      
+      // Get the most recent _ACTIVITY_TYPE_LOGIN of this user
+      $this->User->Activity->recursive = -1;
+      $lastLoginActivity = $this->User->Activity->find('first', array('conditions' =>array(
+          'Activity.user_id' => $userId,
+          'Activity.model' => 'User',
+          'Activity.model_id' => $userId
+      ),
+          'order' => 'Activity.created DESC'));
+      
+      $this->User->Activity->create();
+      $data = array('Activity' => array(
+              'user_id' => $userId,
+              'type' => _ACTIVITY_TYPE_LOGOUT, // Start of an Activity
+              'model' => 'User',
+              'model_id' => $userId,
+              'parent_id' => $lastLoginActivity['Activity']['id']
+      ));
+
+      // TODO: When logging out, also create a register of "STOP" for all the active tasks of this user
+
+      $this->User->Activity->save($data);
+      
+      return $this->redirect($this->Auth->redirect());
+    } 
+    
   }
 
   public function isAuthorized($user) {

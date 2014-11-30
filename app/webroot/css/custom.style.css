@@ -36,3 +36,10 @@ dd { margin-bottom: 20px;}
   font-weight: 700;
   padding-left: 10px;
 }
+
+
+@media (max-width: 1024px) {
+  .table-responsive-warning {
+    display: block !important;
+  }
+}

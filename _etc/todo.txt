@@ -5,7 +5,10 @@ User::view
   Listar Tarefas designadas para o usuário OK
 
 User::login
-  Criar uma activity "login" no banco (via "CakeEvent")
+  Criar uma activity "login" no banco OK
+
+User::logout
+  Criar uma activity "logout" no banco OK
 
 User::dashboard
   Listagem de novas tarefas (não visualizadas).
