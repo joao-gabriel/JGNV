@@ -4,12 +4,12 @@
 		<legend><?php echo __('Edit Project'); ?></legend>
 	<?php
 		echo $this->Form->input('id');
-		echo $this->Form->input('user_id');
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
 		echo $this->Form->input('expected_start_date', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
 		echo $this->Form->input('expected_deadline', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
 		echo $this->Form->input('status');
+    echo $this->Form->input('User', array('label' => 'Users (hold CTRL to select more than one)'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -10,11 +10,11 @@
     echo $this->Html->meta('icon');
     echo $this->Html->css('bootstrap.min');
 
-    
+
     echo $this->Html->css('dashboard');
     echo $this->Html->css('custom.style');
-    
-        echo $this->Html->css('bootstrap-datetimepicker');
+
+    echo $this->Html->css('bootstrap-datetimepicker');
     echo $this->fetch('meta');
     echo $this->fetch('css');
     ?>
@@ -35,12 +35,9 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Profile</a></li>
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'edit', AuthComponent::user('id'))); ?>">Profile</a></li>
             <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'logout')); ?>">Logout</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search project...">
-          </form>
         </div>
       </div>
     </nav>

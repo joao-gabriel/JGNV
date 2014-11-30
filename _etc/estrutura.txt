@@ -57,15 +57,24 @@ expected_start_date
 expected_deadline
 start_date
 finish_date
-status
+status  *2
 created
 modified
 
 
-projects_tasks:
+projects_users:
 id
 project_id
+user_id
+
+activities:
+id
+parent_id
+user_id
 task_id
+type
+created
+modified
 
 
 notes:
@@ -81,3 +90,14 @@ modified
 
 
 
+*2:
+
+Status bits:
+0 = viewed
+1 = completed
+2
+3
+4
+5
+6
+7

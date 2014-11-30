@@ -1,0 +1,5 @@
+Project::add e Project::edit
+  Selecionar usuários que participarão do projeto. OK
+
+User::dashboard
+  Listagem de novas tarefas (não visualizadas).

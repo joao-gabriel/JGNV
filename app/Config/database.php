@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  *
@@ -64,25 +65,26 @@
  */
 class DATABASE_CONFIG {
 
-	public $default = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'root',
-		'password' => '',
-		'database' => 'jgnv',
-		'prefix' => '',
-		'encoding' => 'utf8',
-	);
+  public $default = array(
+      'datasource' => 'Database/Mysql',
+      'persistent' => false,
+      'host' => 'localhost',
+      'login' => 'root',
+      'password' => '',
+      'database' => 'jgnv',
+      'prefix' => '',
+      'encoding' => 'utf8',
+      'unix_socket' => '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
+  );
+  public $test = array(
+      'datasource' => 'Database/Mysql',
+      'persistent' => false,
+      'host' => 'localhost',
+      'login' => 'user',
+      'password' => 'password',
+      'database' => 'test_database_name',
+      'prefix' => '',
+          //'encoding' => 'utf8',
+  );
 
-	public $test = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
-		'prefix' => '',
-		//'encoding' => 'utf8',
-	);
 }

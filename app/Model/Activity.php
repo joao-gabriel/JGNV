@@ -1,13 +1,14 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Project Model
+ * Activity Model
  *
+ * @property Activity $ParentActivity
  * @property User $User
  * @property Task $Task
- * @property Task $Task
+ * @property Activity $ChildActivity
  */
-class Project extends AppModel {
+class Activity extends AppModel {
 
 /**
  * Validation rules
@@ -15,9 +16,9 @@ class Project extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'name' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+		'parent_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -25,9 +26,9 @@ class Project extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'expected_start_date' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'user_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -35,9 +36,9 @@ class Project extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'expected_deadline' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'task_id' => array(
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -45,27 +46,7 @@ class Project extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'start_date' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'finish_date' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'status' => array(
+		'type' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -85,9 +66,23 @@ class Project extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Author' => array(
+		'ParentActivity' => array(
+			'className' => 'Activity',
+			'foreignKey' => 'parent_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		),
+		'Task' => array(
+			'className' => 'Task',
+			'foreignKey' => 'task_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -100,9 +95,9 @@ class Project extends AppModel {
  * @var array
  */
 	public $hasMany = array(
-		'Task' => array(
-			'className' => 'Task',
-			'foreignKey' => 'project_id',
+		'ChildActivity' => array(
+			'className' => 'Activity',
+			'foreignKey' => 'parent_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
@@ -114,12 +109,5 @@ class Project extends AppModel {
 			'counterQuery' => ''
 		)
 	);
-
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	public $hasAndBelongsToMany = array('User');
 
 }

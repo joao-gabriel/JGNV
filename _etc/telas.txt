@@ -1,0 +1,28 @@
+PMV:
+
+
+Usuário comum:
+
+Dashboard:
+Listagem de novas tarefas (não visualizadas).
+
+Listagem das tarefas em aberto.
+
+
+Tasks:
+
+  List Tasks:
+    Lista apenas as tarefas designadas para o usuário.
+    Opções:
+      "Work on it": Cria um registro de 'activity' associado a esta tarefa com status "start".
+      "Pause": Cria um registro de 'activity' associado a esta tarefa com status "stop" e como parent_id a atividade anterior com status "start" referente a esta tarefa.
+    Edit:
+      O Usuário pode marcar uma tarefa como concluída.
+
+  Add Task:
+    Lista apenas os projetos de que o usuário faz parte.
+
+  Edit Task:
+    O Usuário pode marcar uma tarefa como concluída.
+    
+  
