@@ -3,6 +3,7 @@
 	<fieldset>
 		<legend><?php echo __('Add Project'); ?></legend>
 	<?php
+  	echo $this->Form->input('Client');
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
 		echo $this->Form->input('expected_start_date', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));

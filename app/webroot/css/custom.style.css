@@ -25,3 +25,14 @@ and open the template in the editor.
 dd { margin-bottom: 20px;}
 
 .message { font-size: 150%;}
+
+.boolean input[type=checkbox]{
+  position: relative;
+  margin-left: 0px;
+}
+
+.boolean label {
+  display: inline !important;
+  font-weight: 700;
+  padding-left: 10px;
+}

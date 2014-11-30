@@ -1,11 +1,17 @@
 <div class="projects view">
   <h2><?php echo __('Project'); ?></h2>
-  <dl>
+  <dl class="bottom30">
     <dt><?php echo __('Id'); ?></dt>
     <dd>
       <?php echo h($project['Project']['id']); ?>
       &nbsp;
     </dd>
+    <dt><?php echo __('Client'); ?></dt>
+    <dd>
+      <?php echo $this->Html->link($project['Client']['name'], array('controller' => 'clients', 'action' => 'view', $project['Client']['id'])); ?>
+      &nbsp;
+    </dd>    
+
     <dt><?php echo __('User'); ?></dt>
     <dd>
       <?php echo $this->Html->link($project['Author']['name'], array('controller' => 'users', 'action' => 'view', $project['Author']['id'])); ?>
@@ -71,7 +77,7 @@
     <li><?php echo $this->Html->link(__('New Task'), array('controller' => 'tasks', 'action' => 'add')); ?> </li>
   </ul>
 </div>
-<div class="related">
+<div class="related bottom30">
   <h3><?php echo __('Related Users'); ?></h3>
   <?php if (!empty($project['User'])): ?>
     <table cellpadding = "0" cellspacing = "0">
@@ -96,11 +102,48 @@
         </tr>
       <?php endforeach; ?>
     </table>
+  <?php else: ?>
+    <strong>No Related Users</strong>
   <?php endif; ?>
+</div>
 
-  <div class="actions">
-    <ul>
-      <li><?php echo $this->Html->link(__('New Task'), array('controller' => 'tasks', 'action' => 'add')); ?> </li>
-    </ul>
-  </div>
+
+<div class="related bottom30">
+  <h3><?php echo __('Related Tasks'); ?></h3>
+  <?php if (!empty($project['Task'])): ?>
+    <table cellpadding = "0" cellspacing = "0">
+      <tr>
+        <th><?php echo __('Name'); ?></th>
+        <th><?php echo __('Expected Start Date'); ?></th>
+        <th><?php echo __('Expected Deadline Date'); ?></th>
+        <th><?php echo __('Start Date'); ?></th>
+        <th><?php echo __('Finish Date'); ?></th>
+        <th><?php echo __('Status'); ?></th>
+        <th><?php echo __('Created'); ?></th>
+        <th><?php echo __('Modified'); ?></th>
+        <th class="actions"><?php echo __('Actions'); ?></th>
+      </tr>
+      <?php foreach ($project['Task'] as $task): ?>
+        <tr>
+          <td><?php echo h($task['name']); ?>&nbsp;</td>
+          <td><?php echo $this->Time->nice(h($task['expected_start_date'])); ?>&nbsp;</td>
+          <td><?php echo $this->Time->nice(h($task['expected_deadline'])); ?>&nbsp;</td>
+          <td><?php echo $this->Time->nice(h($task['start_date'])); ?>&nbsp;</td>
+          <td><?php echo $this->Time->nice(h($task['finish_date'])); ?>&nbsp;</td>
+          <td><?php echo h($task['status']); ?>&nbsp;</td>
+          <td><?php echo $this->Time->nice(h($task['created'])); ?>&nbsp;</td>
+          <td><?php echo $this->Time->nice(h($task['modified'])); ?>&nbsp;</td>
+          <td class="actions">
+            <?php echo $this->Html->link(__('View'), array('controller' => 'tasks', 'action' => 'view', $task['id'])); ?>
+            <?php if (AuthComponent::user('role') == 'admin') { ?>
+              <?php echo $this->Html->link(__('Edit'), array('controller' => 'tasks', 'action' => 'edit', $task['id'])); ?>
+              <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'tasks', 'action' => 'delete', $task['id']), array(), __('Are you sure you want to delete # %s?', $task['id'])); ?>
+            <?php } ?>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+  <?php else: ?>
+    <strong>No Related Tasks</strong>
+  <?php endif; ?>
 </div>

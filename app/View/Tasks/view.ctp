@@ -1,6 +1,6 @@
 <div class="tasks view">
   <h2><?php echo __('Task'); ?></h2>
-  <dl>
+  <dl class="bottom30">
     <dt><?php echo __('Id'); ?></dt>
     <dd>
       <?php echo h($task['Task']['id']); ?>
@@ -28,22 +28,22 @@
     </dd>
     <dt><?php echo __('Expected Start Date'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['expected_start_date']); ?>
+      <?php echo $this->Time->nice(h($task['Task']['expected_start_date'])); ?>
       &nbsp;
     </dd>
     <dt><?php echo __('Expected Deadline'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['expected_deadline']); ?>
+      <?php echo $this->Time->nice(h($task['Task']['expected_deadline'])); ?>
       &nbsp;
     </dd>
     <dt><?php echo __('Start Date'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['start_date']); ?>
+      <?php echo $this->Time->nice(h($task['Task']['start_date'])); ?>
       &nbsp;
     </dd>
     <dt><?php echo __('Finish Date'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['finish_date']); ?>
+      <?php echo $this->Time->nice(h($task['Task']['finish_date'])); ?>
       &nbsp;
     </dd>
     <dt><?php echo __('Status'); ?></dt>
@@ -53,17 +53,17 @@
     </dd>
     <dt><?php echo __('Created'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['created']); ?>
+      <?php echo $this->Time->nice(h($task['Task']['created'])); ?>
       &nbsp;
     </dd>
     <dt><?php echo __('Modified'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['modified']); ?>
+      <?php echo $this->Time->nice(h($task['Task']['modified'])); ?>
       &nbsp;
     </dd>
-    <dt><?php echo __('Recipient Id'); ?></dt>
+    <dt><?php echo __('User in charge'); ?></dt>
     <dd>
-      <?php echo h($task['Task']['recipient_id']); ?>
+      <?php echo $this->Html->link($task['Recipient']['name'], array('controller' => 'users', 'action' => 'view', $task['Recipient']['id'])); ?>
       &nbsp;
     </dd>
   </dl>
@@ -83,7 +83,7 @@
     <li><?php echo $this->Html->link(__('New Note'), array('controller' => 'notes', 'action' => 'add')); ?> </li>
   </ul>
 </div>
-<div class="related">
+<div class="related bottom">
   <h3><?php echo __('Related Notes'); ?></h3>
   <?php if (!empty($task['Note'])): ?>
     <table cellpadding = "0" cellspacing = "0">
@@ -106,8 +106,8 @@
           <td><?php echo $note['title']; ?></td>
           <td><?php echo $note['content']; ?></td>
           <td><?php echo $note['status']; ?></td>
-          <td><?php echo $note['created']; ?></td>
-          <td><?php echo $note['modified']; ?></td>
+          <td><?php echo $this->Time->nice($note['created']); ?></td>
+          <td><?php echo $this->Time->nice($note['modified']); ?></td>
           <td class="actions">
             <?php echo $this->Html->link(__('View'), array('controller' => 'notes', 'action' => 'view', $note['id'])); ?>
             <?php echo $this->Html->link(__('Edit'), array('controller' => 'notes', 'action' => 'edit', $note['id'])); ?>
@@ -116,21 +116,17 @@
         </tr>
       <?php endforeach; ?>
     </table>
+  <?php else: ?>
+    <strong>No Related Notes</strong>
   <?php endif; ?>
 
-  <div class="actions">
-    <ul>
-      <li><?php echo $this->Html->link(__('New Note'), array('controller' => 'notes', 'action' => 'add')); ?> </li>
-    </ul>
-  </div>
 </div>
-<div class="related">
+<div class="related bottom30">
   <h3><?php echo __('Related Projects'); ?></h3>
   <?php if (!empty($task['Project'])): ?>
     <table cellpadding = "0" cellspacing = "0">
       <tr>
         <th><?php echo __('Id'); ?></th>
-        <th><?php echo __('User Id'); ?></th>
         <th><?php echo __('Name'); ?></th>
         <th><?php echo __('Description'); ?></th>
         <th><?php echo __('Expected Start Date'); ?></th>
@@ -147,16 +143,15 @@
       ?>
       <tr>
         <td><?php echo $project['id']; ?></td>
-        <td><?php echo $project['user_id']; ?></td>
         <td><?php echo $project['name']; ?></td>
         <td><?php echo $project['description']; ?></td>
-        <td><?php echo $project['expected_start_date']; ?></td>
-        <td><?php echo $project['expected_deadline']; ?></td>
-        <td><?php echo $project['start_date']; ?></td>
-        <td><?php echo $project['finish_date']; ?></td>
+        <td><?php echo $this->Time->nice($project['expected_start_date']); ?></td>
+        <td><?php echo $this->Time->nice($project['expected_deadline']); ?></td>
+        <td><?php echo $this->Time->nice($project['start_date']); ?></td>
+        <td><?php echo $this->Time->nice($project['finish_date']); ?></td>
         <td><?php echo $project['status']; ?></td>
-        <td><?php echo $project['created']; ?></td>
-        <td><?php echo $project['modified']; ?></td>
+        <td><?php echo $this->Time->nice($project['created']); ?></td>
+        <td><?php echo $this->Time->nice($project['modified']); ?></td>
         <td class="actions">
           <?php echo $this->Html->link(__('View'), array('controller' => 'projects', 'action' => 'view', $project['id'])); ?>
           <?php echo $this->Html->link(__('Edit'), array('controller' => 'projects', 'action' => 'edit', $project['id'])); ?>
@@ -165,11 +160,8 @@
       </tr>
 
     </table>
+  <?php else: ?>
+    <strong>No Related Projects</strong>
   <?php endif; ?>
 
-  <div class="actions">
-    <ul>
-      <li><?php echo $this->Html->link(__('New Project'), array('controller' => 'projects', 'action' => 'add')); ?> </li>
-    </ul>
-  </div>
 </div>

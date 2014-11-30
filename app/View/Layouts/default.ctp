@@ -61,6 +61,7 @@
     <?php
     echo $this->Html->script('bootstrap.min');
     echo $this->Html->script('bootstrap-datetimepicker.min');
+    echo $this->Html->script('jquery.mask.min');
     echo $this->Html->script('custom');
     echo $this->fetch('script');
     ?>

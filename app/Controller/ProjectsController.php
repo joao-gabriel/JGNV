@@ -60,7 +60,8 @@ class ProjectsController extends AppController {
 			}
 		}
 		$users = $this->Project->User->find('list');
-		$this->set(compact('users'));
+    $clients = $this->Project->Client->find('list');
+		$this->set(compact('users', 'clients'));
 	}
 
 /**
@@ -88,9 +89,9 @@ class ProjectsController extends AppController {
 			$options = array('conditions' => array('Project.' . $this->Project->primaryKey => $id));
 			$this->request->data = $this->Project->find('first', $options);
 		}
-		$users = $this->Project->Author->find('list');
-    
-		$this->set(compact('users'));
+		$users = $this->Project->User->find('list');
+    $clients = $this->Project->Client->find('list');
+		$this->set(compact('users', 'clients'));
 	}
 
 /**

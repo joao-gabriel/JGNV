@@ -118,6 +118,10 @@ class User extends AppModel {
           'exclusive' => '',
           'finderQuery' => '',
           'counterQuery' => ''
+      ),
+      'Taskto' => array(
+          'className' => 'Task',
+          'foreignKey' => 'recipient_id'
       )
   );
 

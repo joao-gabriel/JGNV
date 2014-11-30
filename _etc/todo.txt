@@ -1,5 +1,12 @@
 Project::add e Project::edit
   Selecionar usuários que participarão do projeto. OK
 
+User::view
+  Listar Tarefas designadas para o usuário OK
+
+User::login
+  Criar uma activity "login" no banco (via "CakeEvent")
+
 User::dashboard
   Listagem de novas tarefas (não visualizadas).
+
