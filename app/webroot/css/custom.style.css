@@ -43,3 +43,18 @@ dd { margin-bottom: 20px;}
     display: block !important;
   }
 }
+
+.now {
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
+  bottom: 0;
+  left: 0;
+  min-height: 40px;
+  background: #ccc;
+  padding: 10px 40px 15px;
+  border-top: 1px solid;
+}
+
+
+/* Retina fix */

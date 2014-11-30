@@ -13,6 +13,10 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  */
 class User extends AppModel {
 
+  
+  public $actsAs = array('Containable');
+
+
   /**
    * Validation rules
    *
@@ -111,8 +115,8 @@ class User extends AppModel {
           'dependent' => false,
           'conditions' => '',
           'fields' => '',
-          'order' => '',
-          'limit' => '',
+          'order' => 'Task.created, Task.modified DESC',
+          'limit' => '10',
           'offset' => '',
           'exclusive' => '',
           'finderQuery' => '',
@@ -120,7 +124,9 @@ class User extends AppModel {
       ),
       'Taskto' => array(
           'className' => 'Task',
-          'foreignKey' => 'recipient_id'
+          'foreignKey' => 'recipient_id',
+          'order' => 'Taskto.created, Taskto.modified DESC',
+          'limit' => '10',
       ),
       'Activity' => array(
           'className' => 'Activity',

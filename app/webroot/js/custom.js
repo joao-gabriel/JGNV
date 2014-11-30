@@ -8,7 +8,7 @@ $(document).ready(function() {
     You\'re on a small screen device. You may have to slide the table below horizontally to see all of its columns.\
   </div>');
 
-  $('table').addClass('table table-striped').wrap('<div class="table-responsive"></div>').before(responsiveTableWarning);
+  $('table').addClass('table table-striped table-condensed table-bordered bg-info').wrap('<div class="table-responsive"></div>').before(responsiveTableWarning);
   $('.actions').addClass('col-sm-3 col-md-2 sidebar');
   $('.actions ul').addClass('nav nan-sidebar');
   $('label').addClass('show');
@@ -18,6 +18,8 @@ $(document).ready(function() {
   $('input[type="checkbox"]').removeClass('form-control');
   $('dd').addClass('mb20');
   $('.message').addClass('label label-danger center-block bottom30');
+  $('.paging').addClass('pagination');
+
 
 
   // Add telephone mask
@@ -39,6 +41,23 @@ $(document).ready(function() {
       todayHighlight: true
     });
   }
+
+
+  $('.task_start_btn').click(function() {
+    var obj = $(this);
+    $.ajax({
+      url: window.base_url + "/tasks/start/" + obj.attr('data-id'),
+      type: "POST",
+      dataType: 'json',
+      success: function(data) {
+        console.log('teste');
+        obj.html('Working on this');
+        $('.now').fadeOut(250, function() {
+          $('.now').html('Status: ' + data.status).fadeIn(500);
+        });
+      }
+    });
+  });
 
 });
 

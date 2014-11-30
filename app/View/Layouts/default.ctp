@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php echo $this->Html->charset(); ?>
     <title>
       JGNV:
@@ -30,11 +31,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">JGNV</a>
+          <a class="navbar-brand" href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'dashboard')); ?>">JGNV</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
+            <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'dashboard')); ?>">Dashboard</a></li>
             <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'edit', AuthComponent::user('id'))); ?>">Profile</a></li>
             <li><a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'logout')); ?>">Logout</a></li>
           </ul>
@@ -51,14 +52,48 @@
 
           <?php echo $content_for_layout; ?>
 
+          <div class="actions">
+            <h3><?php echo __('Actions'); ?></h3>
+            <ul>
+              <li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?> </li>
+              <li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?> </li>
+              <li><?php echo $this->Html->link(__('List Notes'), array('controller' => 'notes', 'action' => 'index')); ?> </li>
+              <li><?php echo $this->Html->link(__('New Note'), array('controller' => 'notes', 'action' => 'add')); ?> </li>
+              <li><?php echo $this->Html->link(__('List Projects'), array('controller' => 'projects', 'action' => 'index')); ?> </li>
+              <li><?php echo $this->Html->link(__('New Project'), array('controller' => 'projects', 'action' => 'add')); ?> </li>
+              <li><?php echo $this->Html->link(__('List Tasks'), array('controller' => 'tasks', 'action' => 'index')); ?> </li>
+              <li><?php echo $this->Html->link(__('New Task'), array('controller' => 'tasks', 'action' => 'add')); ?> </li>
+              <li><?php echo $this->Html->link(__('List Teams'), array('controller' => 'teams', 'action' => 'index')); ?> </li>
+              <li><?php echo $this->Html->link(__('New Team'), array('controller' => 'teams', 'action' => 'add')); ?> </li>
+            </ul>
+          </div>          
+
+
           <?php echo $this->element('sql_dump'); ?>
         </div>
       </div> 
     </div> 
     <div class="clearfix"></div>
+
+    <div class='now'>
+      <strong>Status:</strong> 
+      <?php
+      $status = $this->Session->read('Status');
+      if (!empty($status)) {
+        echo $status;
+      } else {
+        ?>  
+        Doing nothing yet? Time to get to work ;) Take a look at the <a href='<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'dashboard')); ?>'>Dashboard</a> and see if there is a task for you.
+        <?php
+      }
+      ?>
+    </div>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <?php
+    echo '<script> window.base_url = "' . Router::url('/', true) . '";</script>';
     echo $this->Html->script('bootstrap.min');
     echo $this->Html->script('bootstrap-datetimepicker.min');
     echo $this->Html->script('jquery.mask.min');

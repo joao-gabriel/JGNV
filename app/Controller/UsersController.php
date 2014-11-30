@@ -113,12 +113,6 @@ class UsersController extends AppController {
     return $this->redirect(array('action' => 'index'));
   }
 
-  public function beforeFilter() {
-    parent::beforeFilter();
-    // Allow users to register and logout.
-    $this->Auth->allow('add', 'logout');
-  }
-
   public function login() {
 
     $this->layout = 'signin';
@@ -131,7 +125,8 @@ class UsersController extends AppController {
                 'user_id' => AuthComponent::user('id'),
                 'type' => _ACTIVITY_TYPE_LOGIN, // Start of an Activity
                 'model' => 'User',
-                'model_id' => AuthComponent::user('id')
+                'model_id' => AuthComponent::user('id'),
+                'from' => $this->request->clientIp(false)
         ));
         $this->User->Activity->save($data);
         return $this->redirect($this->Auth->redirect());
@@ -141,47 +136,78 @@ class UsersController extends AppController {
   }
 
   public function logout() {
-    
+
     $userId = AuthComponent::user('id');
-    
+
     if ($this->Auth->logout()) {
-      
-      // Get the most recent _ACTIVITY_TYPE_LOGIN of this user
+
+      // Get the most recent _ACTIVITY_TYPE_LOGIN of this user on this IP
       $this->User->Activity->recursive = -1;
-      $lastLoginActivity = $this->User->Activity->find('first', array('conditions' =>array(
-          'Activity.user_id' => $userId,
-          'Activity.model' => 'User',
-          'Activity.model_id' => $userId
-      ),
+      $lastLoginActivity = $this->User->Activity->find('first', array('conditions' => array(
+              'Activity.user_id' => $userId,
+              'Activity.model' => 'User',
+              'Activity.model_id' => $userId,
+              'Activity.from' => $this->request->clientIp(false)
+          ),
           'order' => 'Activity.created DESC'));
-      
+
       $this->User->Activity->create();
       $data = array('Activity' => array(
               'user_id' => $userId,
               'type' => _ACTIVITY_TYPE_LOGOUT, // Start of an Activity
               'model' => 'User',
               'model_id' => $userId,
-              'parent_id' => $lastLoginActivity['Activity']['id']
+              'parent_id' => $lastLoginActivity['Activity']['id'],
+              'from' => $this->request->clientIp(false)
       ));
 
       // TODO: When logging out, also create a register of "STOP" for all the active tasks of this user
 
       $this->User->Activity->save($data);
-      
-      return $this->redirect($this->Auth->redirect());
-    } 
-    
+
+      return $this->redirect(array('controller' => 'users', 'action' => 'login'));
+    }
+  }
+
+  public function dashboard($id = null) {
+
+    if (is_null($id)) {
+      $id = AuthComponent::user('id');
+    }
+
+    if (!$this->User->exists($id)) {
+      throw new NotFoundException(__('Invalid user'));
+    }
+
+    $this->User->recursive = -1;
+
+    $options = array(
+        'conditions' => array('User.' . $this->User->primaryKey => $id),
+        'contain' => array(
+            'Activity' => array('limit' => 10, 'order' => 'Activity.created DESC'),
+            'Taskto' => array('limit' => 10, 'order' => 'Taskto.created DESC'),
+            'Taskto.Project.name',
+        ),
+        'fields' => array('id')
+    );
+
+    $user = $this->User->find('first', $options);
+
+//    var_dump($user);
+
+    $this->set('user', $user);
+  }
+
+  public function beforeFilter() {
+    parent::beforeFilter();
+    // Allow users to register and logout.
+    $this->Auth->allow('add', 'logout');
   }
 
   public function isAuthorized($user) {
 
     // All registered users can view details of other users
-    if ($this->action === 'view') {
-      return true;
-    }
-
-    // The owner of a profile can edit it
-    if (in_array($this->action, array('edit'))) {
+    if (in_array($this->action, array('view', 'edit', 'dashboard'))) {
       return true;
     }
 

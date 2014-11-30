@@ -36,16 +36,6 @@ class Activity extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'task_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'type' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -75,15 +65,15 @@ class Activity extends AppModel {
 		),
 		'User' => array(
 			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
+			'foreignKey' => 'model_id',
+			'conditions' => array('Activity.model' => 'User'),
 			'fields' => '',
 			'order' => ''
 		),
 		'Task' => array(
 			'className' => 'Task',
-			'foreignKey' => 'task_id',
-			'conditions' => '',
+			'foreignKey' => 'model_id',
+			'conditions' => array('Activity.model' => 'Task'),
 			'fields' => '',
 			'order' => ''
 		)

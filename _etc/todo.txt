@@ -11,5 +11,8 @@ User::logout
   Criar uma activity "logout" no banco OK
 
 User::dashboard
-  Listagem de novas tarefas (não visualizadas).
+  Listagem de tarefas recentes (não completadas). (50%)
+  E de atividades recentes. OK
+  Clicar para iniciar uma tarefa (75%)
+
 

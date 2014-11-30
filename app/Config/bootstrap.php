@@ -109,3 +109,12 @@ define('_ACTIVITY_TYPE_START_TASK', 1);
 define('_ACTIVITY_TYPE_STOP_TASK', 2);
 define('_ACTIVITY_TYPE_LOGIN', 4);
 define('_ACTIVITY_TYPE_LOGOUT', 8);
+
+
+define('_ACTIVITIES_TYPES', serialize(array(
+    _ACTIVITY_TYPE_START_TASK => 'Start Task',
+    _ACTIVITY_TYPE_STOP_TASK => 'Stop Task',
+    _ACTIVITY_TYPE_LOGIN => 'Login',
+    _ACTIVITY_TYPE_LOGOUT => 'Logout'
+)));
+
