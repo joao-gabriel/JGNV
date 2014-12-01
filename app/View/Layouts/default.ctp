@@ -22,7 +22,7 @@
   </head>
   <body>
     
-      <button type="button" class="pull-left glyphicon glyphicon-list btn btn-info" id="menu-lateral-btn" data-toggle="offcanvas"></button>
+      <button type="button" class="visible-xs pull-left glyphicon glyphicon-list btn btn-info" id="menu-lateral-btn" data-toggle="offcanvas"></button>
     
     <div class="clearfix"></div>
 
@@ -64,7 +64,7 @@
             <a href="#" class="list-group-item">Link</a>
           </div>
         </div>    
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9  col-md-10  main">
           <?php echo $this->Session->flash('auth'); ?>
           <?php echo $content_for_layout; ?>
           <?php echo $this->element('sql_dump'); ?>
