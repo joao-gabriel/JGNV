@@ -9,7 +9,7 @@ $(document).ready(function() {
   </div>');
 
   $('table').addClass('table table-striped table-condensed table-bordered bg-info').wrap('<div class="table-responsive"></div>').before(responsiveTableWarning);
-  $('.actions').remove();
+  //$('.actions').remove();
   $('label').addClass('show');
   $('.input').addClass('form-group  col-lg-9');
   $('input, select, textarea').addClass('form-control');
