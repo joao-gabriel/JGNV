@@ -57,4 +57,15 @@ dd { margin-bottom: 20px;}
 }
 
 
-/* Retina fix */
+#menu-lateral-btn{
+  top: 0px;
+  left: 0px;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+#sidebar {
+  top: 40px;
+  
+}

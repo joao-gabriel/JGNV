@@ -117,9 +117,11 @@
       <?php endforeach; ?>
     </table>
   <?php else: ?>
+
     <strong>No Related Notes</strong>
   <?php endif; ?>
-
+  <div class="clearfix bottom10"></div>
+  <a class="btn btn-info" href="<?php echo $this->Html->url(array('controller' => 'notes', 'action' => 'add', $task['Task']['id'], '#' => 'form-note')); ?>">Add Note</a>
 </div>
 <div class="related bottom30">
   <h3><?php echo __('Related Projects'); ?></h3>

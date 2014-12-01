@@ -14,5 +14,11 @@ User::dashboard
   Listagem de tarefas recentes (não completadas). (50%)
   E de atividades recentes. OK
   Clicar para iniciar uma tarefa (75%)
+  Menu lateral responsivo OK
 
+Task::view
+  Criar botão para adicionar uma nota
+  Marcar como completa
 
+Note::add
+  Adicionar uma nota à uma tarefa
