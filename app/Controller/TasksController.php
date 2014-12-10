@@ -40,7 +40,7 @@ class TasksController extends AppController {
       throw new NotFoundException(__('Invalid task'));
     }
     
-    $this->Task->recursive = 0;
+    $this->Task->recursive = 1;
     $options = array('conditions' => array('Task.' . $this->Task->primaryKey => $id));
     $this->set('task', $this->Task->find('first', $options));
   }

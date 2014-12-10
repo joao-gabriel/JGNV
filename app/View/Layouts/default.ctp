@@ -76,6 +76,9 @@
     <div class='now'>
       <strong>Status:</strong> 
       <?php
+      
+      Cache::clear();
+      
       $status = $this->Session->read('Status');
       if (!empty($status)) {
         echo $status;

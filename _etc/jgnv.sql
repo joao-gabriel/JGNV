@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 29, 2014 at 05:38 PM
--- Server version: 5.5.37-0ubuntu0.13.10.1
--- PHP Version: 5.5.3-1ubuntu2.6
+-- Generation Time: Dec 01, 2014 at 11:49 AM
+-- Server version: 5.5.31
+-- PHP Version: 5.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,6 +19,48 @@ SET time_zone = "+00:00";
 --
 -- Database: `jgnv`
 --
+CREATE DATABASE IF NOT EXISTS `jgnv` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `jgnv`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activities`
+--
+
+CREATE TABLE IF NOT EXISTS `activities` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) unsigned DEFAULT NULL,
+  `user_id` int(11) unsigned NOT NULL,
+  `type` tinyint(4) NOT NULL COMMENT 'Defined in bootstrap.php',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `model_id` int(11) unsigned DEFAULT NULL,
+  `from` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_activities_parent` (`parent_id`),
+  KEY `fk_activities_user` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=97 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `clients`
+--
+
+CREATE TABLE IF NOT EXISTS `clients` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `tel` varchar(40) NOT NULL,
+  `tel2` varchar(255) NOT NULL,
+  `contato` varchar(255) NOT NULL,
+  `site` varchar(255) NOT NULL,
+  `ativo` tinyint(1) NOT NULL,
+  `obs` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -49,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `notes` (
 CREATE TABLE IF NOT EXISTS `projects` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned DEFAULT NULL,
+  `client_id` int(11) unsigned DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `description` text,
   `expected_start_date` datetime NOT NULL,
@@ -59,15 +102,24 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  KEY `fk_projects_client` (`client_id`),
+  KEY `fk_projects_user` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `projects`
+-- Table structure for table `projects_users`
 --
 
-INSERT INTO `projects` (`id`, `user_id`, `name`, `description`, `expected_start_date`, `expected_deadline`, `start_date`, `finish_date`, `status`, `created`, `modified`) VALUES
-(1, 1, 'JGNV - Jobs General Noting and Viewing', 'Este projeto é este próprio sistema', '2014-11-29 13:01:00', '2014-12-15 13:01:00', '2014-11-29 13:01:00', '2014-12-29 13:01:00', 0, '2014-11-29 13:03:09', '2014-11-29 13:03:09');
+CREATE TABLE IF NOT EXISTS `projects_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) unsigned NOT NULL,
+  `user_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_projects_users_project` (`project_id`),
+  KEY `fk_projects_users_user` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -93,15 +145,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   KEY `fk_tasks_project` (`project_id`),
   KEY `fk_tasks_user` (`user_id`),
   KEY `fk_tasks_recipient` (`recipient_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `tasks`
---
-
-INSERT INTO `tasks` (`id`, `user_id`, `project_id`, `name`, `description`, `expected_start_date`, `expected_deadline`, `start_date`, `finish_date`, `status`, `created`, `modified`, `recipient_id`) VALUES
-(1, 1, 1, 'Criar banco de dados e estrutura básica em CakePHP', '', '2014-11-29 10:00:00', '2014-11-29 13:00:00', '2014-11-29 10:15:00', '2014-11-29 13:03:00', 1, '2014-11-29 13:05:02', '2014-11-29 13:15:13', 1),
-(2, 1, 1, 'Criar repositório no github', '', '2014-11-29 13:45:00', '2014-11-29 13:45:00', '2014-11-29 13:45:00', '2014-11-29 13:45:00', 0, '2014-11-29 13:46:09', '2014-11-29 13:46:09', 2);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -118,14 +162,6 @@ CREATE TABLE IF NOT EXISTS `teams` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- Dumping data for table `teams`
---
-
-INSERT INTO `teams` (`id`, `name`, `description`, `created`, `modified`) VALUES
-(1, 'Desenvolvedores Back-end', 'Esta equipe agrupa todos os usuário envolvidos com o desenvolvimento mais focado em back-end.', '2014-11-29 12:59:42', '2014-11-29 12:59:42'),
-(2, 'Desenvolvedores Front-end', 'Esta equipe agrupa todos os envolvidos em atividades voltadas para o front-end como HTML, CSS e Javascript, por exemplo', '2014-11-29 13:00:51', '2014-11-29 13:00:51');
-
 -- --------------------------------------------------------
 
 --
@@ -139,17 +175,7 @@ CREATE TABLE IF NOT EXISTS `teams_users` (
   PRIMARY KEY (`id`),
   KEY `fk_teams_users_team` (`team_id`),
   KEY `fk_teams_users_user` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `teams_users`
---
-
-INSERT INTO `teams_users` (`id`, `team_id`, `user_id`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 1, 2),
-(4, 2, 2);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 -- --------------------------------------------------------
 
@@ -162,26 +188,24 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(40) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` varchar(40) NOT NULL,
-  `tokenhash` varchar(255) NOT NULL,
-  `tokenhash_date` datetime NOT NULL,
+  `tokenhash` varchar(255) NOT NULL DEFAULT '',
+  `tokenhash_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `name` varchar(127) NOT NULL,
   `email` varchar(127) NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `username`, `password`, `role`, `tokenhash`, `tokenhash_date`, `name`, `email`, `created`, `modified`) VALUES
-(1, 'admin', '123mudar', 'admin', '4321', '2014-11-29 12:57:00', 'Administrador', 'joaogabrielv@gmail.com', '2014-11-29 12:58:14', '2014-11-29 12:58:14'),
-(2, 'joao', '123mudar', 'common_user', '123', '2014-11-29 13:00:00', 'João Gabriel ', 'joaogabrielv@gmail.com', '2014-11-29 13:01:27', '2014-11-29 13:01:27');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `activities`
+--
+ALTER TABLE `activities`
+  ADD CONSTRAINT `activities_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `notes`
@@ -194,7 +218,15 @@ ALTER TABLE `notes`
 -- Constraints for table `projects`
 --
 ALTER TABLE `projects`
+  ADD CONSTRAINT `projects_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `projects_users`
+--
+ALTER TABLE `projects_users`
+  ADD CONSTRAINT `projects_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `projects_users_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `tasks`
