@@ -118,3 +118,19 @@ define('_ACTIVITIES_TYPES', serialize(array(
     _ACTIVITY_TYPE_LOGOUT => 'Logout'
 )));
 
+define('_TASK_STATUS_QUEUED', 1);   // A task is queued only before any interaction with the designated user.
+define('_TASK_STATUS_RUNNING', 2);
+define('_TASK_STATUS_PAUSED', 4);
+define('_TASK_STATUS_FINISHED', 8);
+define('_TASK_STATUS_CANCELLED', 16);
+define('_TASK_STATUS_DELETED', 32);
+define('_TASK_STATUS_DENIED', 64);  // A task can be denied by a user (todo)
+
+define('_TASK_STATUS', serialize(array(
+    _TASK_STATUS_QUEUED => 'Queued',
+    _TASK_STATUS_RUNNING => 'Running',
+    _TASK_STATUS_PAUSED => 'Paused',
+    _TASK_STATUS_FINISHED => 'Finished',
+    _TASK_STATUS_CANCELLED => 'Cancelled',
+    _TASK_STATUS_DELETED => 'Deleted'
+)));

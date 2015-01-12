@@ -52,16 +52,12 @@
       <div class="row row row-offcanvas row-offcanvas-left">
         <div class="col-md-2 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
           <div class="list-group">
-            <a href="#" class="list-group-item active">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
-            <a href="#" class="list-group-item">Link</a>
+            <a href="<?php echo $this->Html->url(array('controller' => 'users', 'action' => 'dashboard'));?>" class="list-group-item active">Dashboard</a>
+            <a href="<?php echo $this->Html->url(array('controller' => 'clients'));?>" class="list-group-item">Clients</a>
+            <a href="<?php echo $this->Html->url(array('controller' => 'projects'));?>" class="list-group-item">Projects</a>
+            <a href="<?php echo $this->Html->url(array('controller' => 'tasks'));?>" class="list-group-item">Tasks</a>
+            <a href="<?php echo $this->Html->url(array('controller' => 'teams'));?>" class="list-group-item">Teams</a>
+            <a href="<?php echo $this->Html->url(array('controller' => 'activities'));?>" class="list-group-item">Activities</a>
           </div>
         </div>    
         <div class="col-sm-9  col-md-10  main">

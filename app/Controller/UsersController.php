@@ -120,6 +120,12 @@ class UsersController extends AppController {
     if ($this->request->is('post')) {
       if ($this->Auth->login()) {
 
+        // Check if theres an active login (no corresponding logout Activity) on database from this IP address
+        
+        // If there is, create a logout Activity for it 
+        
+        
+        // Create an Activity for this login
         $this->User->Activity->create();
         $data = array('Activity' => array(
                 'user_id' => AuthComponent::user('id'),
@@ -129,7 +135,10 @@ class UsersController extends AppController {
                 'from' => $this->request->clientIp(false)
         ));
         $this->User->Activity->save($data);
+
+        
         return $this->redirect($this->Auth->redirect());
+        
       }
       $this->Session->setFlash(__('Invalid username or password, try again'));
     }

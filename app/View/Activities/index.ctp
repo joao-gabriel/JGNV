@@ -4,7 +4,7 @@
 	<thead>
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('parent_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('parent_id', 'Parent Activity'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('task_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('type'); ?></th>
@@ -21,12 +21,17 @@
 			<?php echo $this->Html->link($activity['ParentActivity']['id'], array('controller' => 'activities', 'action' => 'view', $activity['ParentActivity']['id'])); ?>
 		</td>
 		<td>
-			<?php echo $this->Html->link($activity['User']['name'], array('controller' => 'users', 'action' => 'view', $activity['User']['id'])); ?>
+			<?php echo $this->Html->link($activity['Author']['name'], array('controller' => 'users', 'action' => 'view', $activity['User']['id'])); ?>
 		</td>
 		<td>
 			<?php echo $this->Html->link($activity['Task']['name'], array('controller' => 'tasks', 'action' => 'view', $activity['Task']['id'])); ?>
 		</td>
-		<td><?php echo h($activity['Activity']['type']); ?>&nbsp;</td>
+		<td>
+      <?php 
+        $activities = unserialize(_ACTIVITIES_TYPES);
+        echo ($activities[$activity['Activity']['type']]); 
+        ?>&nbsp;
+    </td>
 		<td><?php echo h($activity['Activity']['created']); ?>&nbsp;</td>
 		<td><?php echo h($activity['Activity']['modified']); ?>&nbsp;</td>
 		<td class="actions">

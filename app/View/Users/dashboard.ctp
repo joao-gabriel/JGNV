@@ -23,7 +23,7 @@
         <?php endforeach; ?>
       </table>
 
-      <a class="btn btn-info" href="<?php echo $this->Html->url(array('controller' => 'activities', 'index', AuthComponent::user('id'))); ?>">View more Activities</a>
+      <a class="btn btn-info" href="<?php echo $this->Html->url(array('controller' => 'activities', AuthComponent::user('id'))); ?>">View more Activities</a>
     <?php else: ?>
       <strong>No Recent Activities</strong>
     <?php endif; ?>
@@ -40,15 +40,25 @@
           <th><?php echo __('Status'); ?></th>
           <th class="actions"><?php echo __('Actions'); ?></th>
         </tr>
-        <?php foreach ($user['Taskto'] as $task): ?>
+        <?php
+        foreach ($user['Taskto'] as $task):
+          $statusList = unserialize(_TASK_STATUS);
+          ?>
           <tr>
             <td><?php echo $task['name']; ?></td>
             <td><?php echo $this->Time->nice($task['expected_start_date']); ?></td>
             <td><?php echo $this->Time->nice($task['expected_deadline']); ?></td>
-            <td><?php echo $task['status']; ?></td>
+            <td><?php echo $statusList[$task['status']]; ?></td>
             <td class="actions">
               <?php echo $this->Html->link(__('More Details'), array('controller' => 'tasks', 'action' => 'view', $task['id'])); ?> |
-              <a class="task_start_btn" href="javascript:void(0);" data-id='<?php echo $task['id']; ?>'>Work on it</a>
+              <?php
+              if ($task['status'] == _TASK_STATUS_RUNNING) {
+                ?> <a class="task_pause_btn" href="javascript:void(0);" data-id='<?php echo $task['id']; ?>'>Pause</a> <?php
+              } else {
+                ?> <a class="task_start_btn" href="javascript:void(0);" data-id='<?php echo $task['id']; ?>'>Work on it</a> <?php
+              }
+              ?>
+
 
             </td>
           </tr>

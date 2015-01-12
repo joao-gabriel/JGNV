@@ -143,8 +143,8 @@ class Task extends AppModel {
       ),
       'Activity' => array(
           'className' => 'Activity',
-          'foreignkey' => 'model_id',
-          'conditions' => array('model' => 'Task'),
+          'foreignKey' => 'model_id',
+          'conditions' => array('Activity.model' => 'Task'),
           'limit' => '40'
       )
   );

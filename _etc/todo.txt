@@ -10,15 +10,26 @@ User::login
 User::logout
   Criar uma activity "logout" no banco OK
 
+Activities::index
+  Show Type name OK
+
 User::dashboard
-  Listagem de tarefas recentes (não completadas). (50%)
-  E de atividades recentes. OK
-  Clicar para iniciar uma tarefa (75%)
   Menu lateral responsivo OK
+  Listagem de atividades recentes. OK
+  Listagem de tarefas recentes (não completadas). (50%)
+  Clicar para iniciar uma tarefa (75%)
+    Verificar na exibição da tabela se a linha sendo exibida é de uma tarefa sendo trabalhada no momento.
+
+
 
 Task::view
+  Bug fix: Fix association bug between activity OK (it was a typO ¬¬)
   Criar botão para adicionar uma nota
   Marcar como completa
+  
+
+
+
 
 Note::add
   Adicionar uma nota à uma tarefa

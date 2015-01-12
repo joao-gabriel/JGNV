@@ -134,10 +134,14 @@ class TasksController extends AppController {
 
     $newStatus = 'You\'re working on "<a href="' . Router::url(array('controller' => 'tasks', 'action' => 'view', $task['Task']['id'])) . '">' . $task['Task']['name'] . '</a>" since ' . CakeTime::nice($activity['Activity']['created']).'.';
 
+    $this->Task->id = $task['Task']['id'];
+    $this->Task->saveField('status', _TASK_STATUS_RUNNING);
+    
     $this->Session->write('Status', $newStatus);
 
     // TODO: When start a task, also create a register of "STOP" for all the active tasks of this user
 
+    
     echo json_encode(array('Activity' => $activity, 'Task' => $task, 'status' => $this->Session->read('Status')));
   }
 
