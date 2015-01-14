@@ -1,7 +1,5 @@
 <div class="users view">
   <h2><?php echo __('Dashboard'); ?></h2>
-
-
   <div class="related bottom30">
     <h3><?php echo __('Your Recent Activity'); ?></h3>
     <?php
@@ -53,9 +51,9 @@
               <?php echo $this->Html->link(__('More Details'), array('controller' => 'tasks', 'action' => 'view', $task['id'])); ?> |
               <?php
               if ($task['status'] == _TASK_STATUS_RUNNING) {
-                ?> <a class="task_pause_btn" href="javascript:void(0);" data-id='<?php echo $task['id']; ?>'>Pause</a> <?php
+                echo $this->Form->postLink('Pause', array('controller' => 'tasks', 'action' => 'pause', $task['id']), 'Are You Sure?');
               } else {
-                ?> <a class="task_start_btn" href="javascript:void(0);" data-id='<?php echo $task['id']; ?>'>Work on it</a> <?php
+                echo $this->Form->postLink('Work on it', array('controller' => 'tasks', 'action' => 'start', $task['id']), 'Are You Sure?');
               }
               ?>
 
@@ -69,3 +67,4 @@
       <strong>No Tasks Assigned to User</strong>
     <?php endif; ?>
   </div>
+</div>

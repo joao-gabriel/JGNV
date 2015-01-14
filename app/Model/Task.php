@@ -149,4 +149,64 @@ class Task extends AppModel {
       )
   );
 
+  public function start($id, $ip = null) {
+    $this->Activity->create();
+    $data = array('Activity' => array(
+            'user_id' => AuthComponent::user('id'),
+            'type' => _ACTIVITY_TYPE_START_TASK, // Start of an Activity
+            'model' => 'Task',
+            'model_id' => $id,
+            'from' => $ip
+    ));
+
+    $activity = $this->Activity->save($data);
+    
+    if (!$activity) {
+      return false;
+    }
+
+    $this->recursive = -1;
+    $task = $this->find('first', array('conditions' => array('Task.id' => $id)));
+
+    $this->id = $task['Task']['id'];
+    if (!$this->saveField('status', _TASK_STATUS_RUNNING)) {
+      return false;
+    }
+
+    return array('task' => $task, 'activity' => $activity);
+  }
+
+  public function pause($ip = null) {
+
+    $runningTask = $this->find('first', array(
+        'conditions' => array(
+            'Task.recipient_id' => AuthComponent::user('id'),
+            'Task.status' => _TASK_STATUS_RUNNING
+        )
+    ));
+
+    if (count($runningTask) > 0) {
+      $this->Activity->create();
+      $data = array('Activity' => array(
+              'user_id' => AuthComponent::user('id'),
+              'type' => _ACTIVITY_TYPE_STOP_TASK,
+              'model' => 'Task',
+              'model_id' => $runningTask['Task']['id'],
+              'from' => $ip
+      ));
+      
+      $activity = $this->Activity->save($data);
+      
+      if (!$activity) {
+        return false;
+      }
+      $this->id = $runningTask['Task']['id'];
+      if (!$this->saveField('status', _TASK_STATUS_PAUSED)) {
+        return false;
+      }
+      return array('task' => $runningTask, 'activity' => $activity);
+    }
+    return true;
+  }
+
 }

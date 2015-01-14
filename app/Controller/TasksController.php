@@ -39,7 +39,7 @@ class TasksController extends AppController {
     if (!$this->Task->exists($id)) {
       throw new NotFoundException(__('Invalid task'));
     }
-    
+
     $this->Task->recursive = 1;
     $options = array('conditions' => array('Task.' . $this->Task->primaryKey => $id));
     $this->set('task', $this->Task->find('first', $options));
@@ -118,31 +118,21 @@ class TasksController extends AppController {
   public function start($id) {
     $this->autoRender = false;
 
-    $this->Task->Activity->create();
-    $data = array('Activity' => array(
-            'user_id' => AuthComponent::user('id'),
-            'type' => _ACTIVITY_TYPE_START_TASK, // Start of an Activity
-            'model' => 'Task',
-            'model_id' => $id,
-            'from' => $this->request->clientIp(false)
-    ));
-
-    $activity = $this->Task->Activity->save($data);
-
-    $this->Task->recursive = -1;
-    $task = $this->Task->find('first', array('conditions' => array('Task.id' => $id)));
-
-    $newStatus = 'You\'re working on "<a href="' . Router::url(array('controller' => 'tasks', 'action' => 'view', $task['Task']['id'])) . '">' . $task['Task']['name'] . '</a>" since ' . CakeTime::nice($activity['Activity']['created']).'.';
-
-    $this->Task->id = $task['Task']['id'];
-    $this->Task->saveField('status', _TASK_STATUS_RUNNING);
+    // First, pause any ongoing task
+    $this->Task->pause($this->request->clientIp(false));
     
-    $this->Session->write('Status', $newStatus);
-
-    // TODO: When start a task, also create a register of "STOP" for all the active tasks of this user
+    $started = $this->Task->start($id, $this->request->clientIp(false));
+    if ($started !== FALSE) {
+      $task = $started['task'];
+      $activity = $started['activity'];
+      $newStatus = 'You\'re working on "<a href="' . Router::url(array('controller' => 'tasks', 'action' => 'view', $task['Task']['id'])) . '">' . $task['Task']['name'] . '</a>" since ' . CakeTime::nice($activity['Activity']['created']) . '.';
+      $this->Session->write('Status', $newStatus);
+      $this->Session->setFlash($newStatus, 'modal_default');
+//      echo json_encode(array('Activity' => $activity, 'Task' => $task, 'status' => $this->Session->read('Status')));
+      $this->redirect($this->referer());
+    }
 
     
-    echo json_encode(array('Activity' => $activity, 'Task' => $task, 'status' => $this->Session->read('Status')));
   }
 
   public function isAuthorized($user) {

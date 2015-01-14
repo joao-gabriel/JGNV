@@ -17,8 +17,8 @@ User::dashboard
   Menu lateral responsivo OK
   Listagem de atividades recentes. OK
   Listagem de tarefas recentes (não completadas). (50%)
-  Clicar para iniciar uma tarefa (75%)
-    Verificar na exibição da tabela se a linha sendo exibida é de uma tarefa sendo trabalhada no momento.
+  Clicar para iniciar uma tarefa OK
+    
 
 
 

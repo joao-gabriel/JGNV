@@ -61,7 +61,8 @@
           </div>
         </div>    
         <div class="col-sm-9  col-md-10  main">
-          <?php echo $this->Session->flash('auth'); ?>
+          <?php echo $this->Session->flash(); ?>
+          
           <?php echo $content_for_layout; ?>
           <?php echo $this->element('sql_dump'); ?>
         </div>

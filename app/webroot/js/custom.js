@@ -42,21 +42,9 @@ $(document).ready(function() {
   }
 
 
-  $('.task_start_btn').click(function() {
-    var obj = $(this);
-    $.ajax({
-      url: window.base_url + "/tasks/start/" + obj.attr('data-id'),
-      type: "POST",
-      dataType: 'json',
-      success: function(data) {
-        console.log('teste');
-        obj.html('Working on this');
-        $('.now').fadeOut(250, function() {
-          $('.now').html('Status: ' + data.status).fadeIn(500);
-        });
-      }
-    });
-  });
+  if ($('#modal').length>0){
+    $('#modal').modal('show');
+  }
 
 });
 
