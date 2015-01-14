@@ -2,7 +2,7 @@ Jobs General Noting and Viewing
 (provisory name)
 
 
-Utilized technologies:
+Uses:
 
 Twitter Boostrap
 
