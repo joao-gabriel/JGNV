@@ -160,7 +160,7 @@ class Task extends AppModel {
     ));
 
     $activity = $this->Activity->save($data);
-    
+
     if (!$activity) {
       return false;
     }
@@ -176,13 +176,18 @@ class Task extends AppModel {
     return array('task' => $task, 'activity' => $activity);
   }
 
-  public function pause($ip = null) {
+  public function pause($ip = null, $id = null) {
 
+    $conditions = array(
+        'Task.recipient_id' => AuthComponent::user('id'),
+        'Task.status' => _TASK_STATUS_RUNNING);
+
+    if (is_numeric($id)){
+      $conditions['Task.id'] = $id;
+    }
+    
     $runningTask = $this->find('first', array(
-        'conditions' => array(
-            'Task.recipient_id' => AuthComponent::user('id'),
-            'Task.status' => _TASK_STATUS_RUNNING
-        )
+        'conditions' => $conditions
     ));
 
     if (count($runningTask) > 0) {
@@ -194,9 +199,9 @@ class Task extends AppModel {
               'model_id' => $runningTask['Task']['id'],
               'from' => $ip
       ));
-      
+
       $activity = $this->Activity->save($data);
-      
+
       if (!$activity) {
         return false;
       }

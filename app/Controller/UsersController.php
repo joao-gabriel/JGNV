@@ -121,10 +121,7 @@ class UsersController extends AppController {
       if ($this->Auth->login()) {
 
         // Check if theres an active login (no corresponding logout Activity) on database from this IP address
-        
         // If there is, create a logout Activity for it 
-        
-        
         // Create an Activity for this login
         $this->User->Activity->create();
         $data = array('Activity' => array(
@@ -136,9 +133,8 @@ class UsersController extends AppController {
         ));
         $this->User->Activity->save($data);
 
-        
+
         return $this->redirect($this->Auth->redirect());
-        
       }
       $this->Session->setFlash(__('Invalid username or password, try again'));
     }
@@ -189,21 +185,24 @@ class UsersController extends AppController {
     }
 
     $this->User->recursive = -1;
-
     $options = array(
         'conditions' => array('User.' . $this->User->primaryKey => $id),
         'contain' => array(
-            'Activity' => array('limit' => 10, 'order' => 'Activity.created DESC'),
+            'ActivityOwned' => array(
+                'limit' => 10,
+                'order' => 'ActivityOwned.created DESC',
+                'conditions' => array('ActivityOwned.user_id' => $id),
+                'fields' => array(
+                    'IF (ActivityOwned.model = "Task", (SELECT name FROM tasks WHERE id = ActivityOwned.model_id), null) as TaskName',
+                    'ActivityOwned.*'
+                )
+            ),
             'Taskto' => array('limit' => 10, 'order' => 'Taskto.created DESC'),
             'Taskto.Project.name',
         ),
         'fields' => array('id')
     );
-
     $user = $this->User->find('first', $options);
-
-//    var_dump($user);
-
     $this->set('user', $user);
   }
 

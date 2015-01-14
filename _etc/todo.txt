@@ -18,9 +18,7 @@ User::dashboard
   Listagem de atividades recentes. OK
   Listagem de tarefas recentes (não completadas). (50%)
   Clicar para iniciar uma tarefa OK
-    
-
-
+  Pausar tarefa
 
 Task::view
   Bug fix: Fix association bug between activity OK (it was a typO ¬¬)

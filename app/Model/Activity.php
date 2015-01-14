@@ -84,6 +84,10 @@ class Activity extends AppModel {
           'conditions' => array('Activity.model' => 'Task'),
           'fields' => '',
           'order' => ''
+      ),
+      'Owner' => array(
+          'className' => 'User',
+          'foreignKey' => 'user_id'
       )
   );
 

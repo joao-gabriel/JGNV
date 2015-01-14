@@ -130,9 +130,13 @@ class User extends AppModel {
       ),
       'Activity' => array(
           'className' => 'Activity',
-          'foreign_key' => 'model_id',
+          'foreignKey' => 'model_id',
           'conditions' => array('model' => 'User'),
           'limit' => '40'
+      ),
+      'ActivityOwned' => array(
+          'className' => 'Activity',
+          'foreignKey' => 'user_id'
       )
   );
 

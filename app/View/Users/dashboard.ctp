@@ -3,7 +3,7 @@
   <div class="related bottom30">
     <h3><?php echo __('Your Recent Activity'); ?></h3>
     <?php
-    if (!empty($user['Activity'])):
+    if (!empty($user['ActivityOwned'])):
       $activitiesTypes = unserialize(_ACTIVITIES_TYPES);
       ?>
       <table cellpadding = "0" cellspacing = "0">
@@ -12,9 +12,16 @@
           <th><?php echo __('When'); ?></th>
           <th><?php echo __('From'); ?></th>
         </tr>
-        <?php foreach ($user['Activity'] as $activity): ?>
+        <?php foreach ($user['ActivityOwned'] as $activity): ?>
           <tr>
-            <td><?php echo $activitiesTypes[$activity['type']]; ?></td>
+            <td>
+              <?php
+              echo $activitiesTypes[$activity['type']];
+              if (!is_null($activity[0]['TaskName'])) {
+                echo ' "' . $this->Html->link($activity[0]['TaskName'], array('controller' => 'tasks', 'action' => 'view', $activity['model_id'])) . '"';
+              }
+              ?>
+            </td>
             <td><?php echo $this->Time->nice($activity['created']); ?></td>
             <td><?php echo $activity['from']; ?></td>
           </tr>
@@ -51,9 +58,9 @@
               <?php echo $this->Html->link(__('More Details'), array('controller' => 'tasks', 'action' => 'view', $task['id'])); ?> |
               <?php
               if ($task['status'] == _TASK_STATUS_RUNNING) {
-                echo $this->Form->postLink('Pause', array('controller' => 'tasks', 'action' => 'pause', $task['id']), 'Are You Sure?');
+                echo $this->Form->postLink('Pause', array('controller' => 'tasks', 'action' => 'pause', $task['id']), array('class' => 'btn btn-danger'), 'Are You Sure?');
               } else {
-                echo $this->Form->postLink('Work on it', array('controller' => 'tasks', 'action' => 'start', $task['id']), 'Are You Sure?');
+                echo $this->Form->postLink('Work on it', array('controller' => 'tasks', 'action' => 'start', $task['id']), array('class' => 'btn btn-success'), 'Are You Sure?');
               }
               ?>
 

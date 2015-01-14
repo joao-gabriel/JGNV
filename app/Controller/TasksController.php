@@ -120,7 +120,7 @@ class TasksController extends AppController {
 
     // First, pause any ongoing task
     $this->Task->pause($this->request->clientIp(false));
-    
+
     $started = $this->Task->start($id, $this->request->clientIp(false));
     if ($started !== FALSE) {
       $task = $started['task'];
@@ -131,14 +131,26 @@ class TasksController extends AppController {
 //      echo json_encode(array('Activity' => $activity, 'Task' => $task, 'status' => $this->Session->read('Status')));
       $this->redirect($this->referer());
     }
+  }
 
+  public function pause($id) {
+    $paused = $this->Task->pause($this->request->clientIp(false), $id);
     
+    if ($paused !== FALSE) {
+      $task = $paused['task'];
+      $activity = $paused['activity'];
+      $newStatus = 'You\'ve paused "<a href="' . Router::url(array('controller' => 'tasks', 'action' => 'view', $task['Task']['id'])) . '">' . $task['Task']['name'] . '</a>" at ' . CakeTime::nice($activity['Activity']['created']) . '.';
+      $this->Session->write('Status', $newStatus);
+      $this->Session->setFlash($newStatus, 'modal_default');
+//      echo json_encode(array('Activity' => $activity, 'Task' => $task, 'status' => $this->Session->read('Status')));
+      $this->redirect($this->referer());
+    }
   }
 
   public function isAuthorized($user) {
 
     // All registered users can view details of other users
-    if (in_array($this->action, array('view', 'start', 'stop'))) {
+    if (in_array($this->action, array('view', 'start', 'stop', 'pause'))) {
       return true;
     }
 
