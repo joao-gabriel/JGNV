@@ -55,7 +55,7 @@
             <td><?php echo $this->Time->nice($task['expected_deadline']); ?></td>
             <td><?php echo $statusList[$task['status']]; ?></td>
             <td class="actions">
-              <?php echo $this->Html->link(__('More Details'), array('controller' => 'tasks', 'action' => 'view', $task['id'])); ?> |
+              <?php echo $this->Html->link(__('More Details'), array('controller' => 'tasks', 'action' => 'view', $task['id']), array('class' => 'btn btn-info')); ?> 
               <?php
               if ($task['status'] == _TASK_STATUS_RUNNING) {
                 echo $this->Form->postLink('Pause', array('controller' => 'tasks', 'action' => 'pause', $task['id']), array('class' => 'btn btn-danger'), 'Are You Sure?');

@@ -105,17 +105,21 @@ CakeLog::config('error', array(
 ));
 
 
+define('_UNKNOW_USER', 1);
+
 define('_ACTIVITY_TYPE_START_TASK', 1);
 define('_ACTIVITY_TYPE_STOP_TASK', 2);
 define('_ACTIVITY_TYPE_LOGIN', 4);
 define('_ACTIVITY_TYPE_LOGOUT', 8);
+define('_ACTIVITY_TYPE_LOGIN_FAIL', 16);
 
 
 define('_ACTIVITIES_TYPES', serialize(array(
     _ACTIVITY_TYPE_START_TASK => 'Start Task',
     _ACTIVITY_TYPE_STOP_TASK => 'Stop Task',
     _ACTIVITY_TYPE_LOGIN => 'Login',
-    _ACTIVITY_TYPE_LOGOUT => 'Logout'
+    _ACTIVITY_TYPE_LOGOUT => 'Logout',
+    _ACTIVITY_TYPE_LOGIN_FAIL => 'Login failed',
 )));
 
 define('_TASK_STATUS_QUEUED', 1);   // A task is queued only before any interaction with the designated user.

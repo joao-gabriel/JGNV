@@ -120,8 +120,38 @@ class UsersController extends AppController {
     if ($this->request->is('post')) {
       if ($this->Auth->login()) {
 
-        // Check if theres an active login (no corresponding logout Activity) on database from this IP address
-        // If there is, create a logout Activity for it 
+//        // TODO: Check if theres an active login (no corresponding logout Activity) on database from this IP address
+//        $this->User->Activity->recursive = -1;
+//        $activeLogin = $this->User->Activity->find('first', array(
+//            'conditions' => array(
+//                'id NOT IN (
+//                  SELECT parent_id FROM activities WHERE 
+//                    `user_id` = ' . AuthComponent::user('id') . ' AND
+//                    `type` = ' . _ACTIVITY_TYPE_LOGIN . ' AND
+//                    `model` = "User" AND
+//                    `model_id` = ' . AuthComponent::user('id') . ' AND
+//                    "from" = "' . addslashes($this->request->clientIp(false)) . '"
+//                  ORDER BY created DESC
+//                  )'
+//            )
+//        ));
+//
+//        die();
+//        
+//        // If there is, create a logout Activity for it 
+//        if (count($activeLogin) > 0) {
+//          $this->User->Activity->create();
+//          $data = array('Activity' => array(
+//                  'user_id' => AuthComponent::user('id'),
+//                  'type' => _ACTIVITY_TYPE_LOGOUT, // Start of an Activity
+//                  'model' => 'User',
+//                  'model_id' => AuthComponent::user('id'),
+//                  'from' => $this->request->clientIp(false),
+//                  'parent_id' => $activeLogin['Activity']['id']
+//          ));
+//          $this->User->Activity->save($data);
+//        }
+
         // Create an Activity for this login
         $this->User->Activity->create();
         $data = array('Activity' => array(
@@ -131,12 +161,35 @@ class UsersController extends AppController {
                 'model_id' => AuthComponent::user('id'),
                 'from' => $this->request->clientIp(false)
         ));
-        $this->User->Activity->save($data);
-
+        $salvou = $this->User->Activity->save($data);
 
         return $this->redirect($this->Auth->redirect());
+      } else {
+
+        // Criar uma activity de falha de login no banco
+        $options = array('conditions' => array(
+                'User.username' => $this->request->data['User']['username']
+        ));
+        $this->User->recursive = -1;
+        $user = $this->User->find('first', $options);
+
+        if (count($user) > 0) {
+          $userId = $user['User']['id'];
+        } else {
+          $userId = _UNKNOW_USER;
+        }
+        $this->User->Activity->create();
+        $data = array('Activity' => array(
+                'user_id' => $userId,
+                'type' => _ACTIVITY_TYPE_LOGIN_FAIL, // Start of an Activity
+                'model' => 'User',
+                'model_id' => $userId,
+                'from' => $this->request->clientIp(false)
+        ));
+        $this->User->Activity->save($data);
+
+        $this->Session->setFlash(__('Invalid username or password, try again'));
       }
-      $this->Session->setFlash(__('Invalid username or password, try again'));
     }
   }
 

@@ -1,11 +1,16 @@
 Project::add e Project::edit
   Selecionar usuários que participarão do projeto. OK
 
+User::add
+  Não permitir cadastro de um username existente
+
 User::view
   Listar Tarefas designadas para o usuário OK
 
 User::login
   Criar uma activity "login" no banco OK
+  Verificar se existe uma activity de login do mesmo IP e criar uma activity de logout 
+  Criar uma activity de falha de login no banco
 
 User::logout
   Criar uma activity "logout" no banco OK
@@ -18,7 +23,7 @@ User::dashboard
   Listagem de atividades recentes. OK
   Listagem de tarefas recentes (não completadas). (50%)
   Clicar para iniciar uma tarefa OK
-  Pausar tarefa
+  Pausar tarefa OK
 
 Task::view
   Bug fix: Fix association bug between activity OK (it was a typO ¬¬)
