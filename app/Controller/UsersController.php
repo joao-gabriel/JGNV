@@ -54,7 +54,7 @@ class UsersController extends AppController {
         $this->Session->setFlash(__('The user has been saved.'));
         return $this->redirect(array('action' => 'index'));
       } else {
-        $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+        $this->Session->setFlash(__('The user could not be saved. Please, check the form and try again.'), 'flash_error');
       }
     }
     $teams = $this->User->Team->find('list');

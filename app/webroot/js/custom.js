@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
   // Add bootstrap styling
   var responsiveTableWarning = $('\
   <div class="alert alert-warning table-responsive-warning" style="display: none">\
@@ -9,14 +8,12 @@ $(document).ready(function() {
   </div>');
 
   $('table').addClass('table table-striped table-condensed table-bordered bg-info').wrap('<div class="table-responsive"></div>').before(responsiveTableWarning);
-  //$('.actions').remove();
   $('label').addClass('show');
   $('.input').addClass('form-group  col-lg-9');
   $('input, select, textarea').addClass('form-control');
   $('input[type="submit"]').removeClass('form-control').addClass('btn btn-default');
   $('input[type="checkbox"]').removeClass('form-control');
   $('dd').addClass('mb20');
-  $('.message').addClass('label label-danger center-block bottom30');
   $('.paging').addClass('pagination');
 
 

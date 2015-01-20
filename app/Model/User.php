@@ -13,9 +13,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
  */
 class User extends AppModel {
 
-  
   public $actsAs = array('Containable');
-
 
   /**
    * Validation rules
@@ -32,6 +30,13 @@ class User extends AppModel {
               'last' => false, // Stop validation after this rule
               'on' => 'create', // Limit validation to 'create' or 'update' operations
           ),
+          'isUnique' => array(
+              'rule' => array('isUnique'),
+              'message' => 'This username has already been taken'
+          ),
+          'alphanumeric' => array(
+              'rule' => 'alphanumeric'
+          )
       ),
       'password' => array(
           'notEmpty' => array(
@@ -42,6 +47,10 @@ class User extends AppModel {
               'last' => false, // Stop validation after this rule
               'on' => 'create', // Limit validation to 'create' or 'update' operations
           ),
+          'minLength' => array(
+              'rule' => array('minLength', '8'),
+              'message' => 'Minimum 8 characters long'
+          )
       ),
       'role' => array(
           'notEmpty' => array(
