@@ -113,7 +113,6 @@ define('_ACTIVITY_TYPE_LOGIN', 4);
 define('_ACTIVITY_TYPE_LOGOUT', 8);
 define('_ACTIVITY_TYPE_LOGIN_FAIL', 16);
 
-
 define('_ACTIVITIES_TYPES', serialize(array(
     _ACTIVITY_TYPE_START_TASK => 'Start Task',
     _ACTIVITY_TYPE_STOP_TASK => 'Stop Task',

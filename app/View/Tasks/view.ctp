@@ -8,6 +8,13 @@
     <?php echo h(nl2br($task['Task']['description'])); ?>
   </p>
 
+  <p>
+    <strong>You've been working in this task for:</strong><br />
+    <?php echo date('H',strtotime($task['timeElapsed'])); ?> hours, 
+    <?php echo date('i',strtotime($task['timeElapsed'])); ?> minutes and 
+    <?php echo date('s',strtotime($task['timeElapsed'])); ?> seconds
+  </p>
+
   <dl class="bottom30">
     <dt><?php echo __('Created by'); ?></dt>
     <dd>

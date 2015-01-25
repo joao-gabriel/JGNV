@@ -217,4 +217,14 @@ class Task extends AppModel {
     return true;
   }
 
+   /**
+   * calcTaskTime method
+   * @params $taskId
+   * @return int
+   */
+  public function calcTaskTime($taskId){
+    return $this->Activity->calcActivityTime($this->alias, $taskId, _ACTIVITY_TYPE_START_TASK, _ACTIVITY_TYPE_STOP_TASK);
+  }
+  
+  
 }

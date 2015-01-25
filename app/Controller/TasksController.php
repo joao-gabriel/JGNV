@@ -52,6 +52,8 @@ class TasksController extends AppController {
         
         );
     $task = $this->Task->find('first', $options);
+    $task['timeElapsed'] = $this->Task->calcTaskTime($task['Task']['id']);
+    
     $this->set('task', $task);
   }
 

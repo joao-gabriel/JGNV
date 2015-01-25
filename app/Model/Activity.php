@@ -114,4 +114,42 @@ class Activity extends AppModel {
       )
   );
 
+   /**
+   * calcActivityTime method
+   *
+   * @param int $model
+   * @param int $modelId
+   * @param int $startType
+   * @param int $stopType
+   *
+   * @return string
+   */
+  public function calcActivityTime($model, $modelId, $startType, $stopType)  {
+     
+    $options = array(
+        'conditions' => array(
+            'Activity.model' => $model,
+            'Activity.model_id' => $modelId,
+            'Activity.type' => $startType
+        ),
+        'joins' => array(
+            array(
+                'table' => 'activities',
+                'alias' => 'StopActivity',
+                'type' => 'INNER',
+                'conditions' => array(
+                    'StopActivity.parent_id = Activity.id'
+                )
+            )
+        ),
+        'fields' => array(
+            'sec_to_time(sum(TIME_TO_SEC(timediff(StopActivity.created, Activity.created)))) as timeElapsed'
+        )
+    );
+    $this->recursive = -1;
+    $total = $this->find('first', $options);
+    
+    return $total[0]['timeElapsed'];
+    
+  }
 }

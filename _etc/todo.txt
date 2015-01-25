@@ -27,13 +27,15 @@ User::dashboard
 Note::add
   Adicionar uma nota à uma tarefa
 
-Task::view
+TaskController::view
   Bug fix: Fix association bug between activity OK (it was a typO ¬¬)
   Criar botão para adicionar uma nota OK
   Exibir notas associadas OK
-  Marcar como completa
   Exibir total de tempo executando a tarefa 
+  Marcar como completa
 
+Task::pause
+  Bug fix: Its not saving the activity
 
 User::login
   Criar uma activity "login" no banco OK
