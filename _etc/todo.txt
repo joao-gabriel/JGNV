@@ -1,3 +1,7 @@
+
+Activities::index
+  Show Type name OK
+
 Project::add e Project::edit
   Selecionar usuários que participarão do projeto. OK
 
@@ -8,8 +12,6 @@ User::logout
   Criar uma activity "logout" no banco OK
   Stop any running task OK
 
-Activities::index
-  Show Type name OK
 
 User::add
   Não permitir cadastro de um username existente OK
@@ -22,20 +24,22 @@ User::dashboard
   Listagem de tarefas recentes (não completadas). OK
 
 
+Note::add
+  Adicionar uma nota à uma tarefa
+
+Task::view
+  Bug fix: Fix association bug between activity OK (it was a typO ¬¬)
+  Criar botão para adicionar uma nota OK
+  Exibir notas associadas OK
+  Marcar como completa
+  Exibir total de tempo executando a tarefa 
+
+
 User::login
   Criar uma activity "login" no banco OK
   Criar uma activity de falha de login no banco OK
   Verificar se existe uma activity de login do mesmo IP e criar uma activity de logout 
   
-User::logout
-  Criar uma activity "STOP" para qualquer Task que esteja sendo executada
 
 
-Task::view
-  Bug fix: Fix association bug between activity OK (it was a typO ¬¬)
-  Criar botão para adicionar uma nota
-  Marcar como completa
-  Exibir total de tempo executando a tarefa 
 
-Note::add
-  Adicionar uma nota à uma tarefa

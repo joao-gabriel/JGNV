@@ -22,6 +22,10 @@ and open the template in the editor.
 .bottom17 { margin-bottom:17px; }
 .bottom30 { margin-bottom:30px; }
 
+.mr20 { margin-right: 20px;}
+
+.ml20 {margin-left: 20px;}
+
 dd { margin-bottom: 20px;}
 
 /*.message { font-size: 150%;}*/

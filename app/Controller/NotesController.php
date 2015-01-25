@@ -48,15 +48,19 @@ class NotesController extends AppController {
    * @return void
    */
   public function add($taskId = null) {
-    if (is_null($taskId)){
+    if (is_null($taskId) || !is_numeric($taskId)){
       die('No task selected');
     }
     
     if ($this->request->is('post')) {
+      
+      $this->request->data['Note']['task_id'] = $taskId;
+      $this->request->data['Note']['user_id'] = AuthComponent::user('id');
+            
       $this->Note->create();
       if ($this->Note->save($this->request->data)) {
-        $this->Session->setFlash(__('The note has been saved.'));
-        return $this->redirect(array('action' => 'index'));
+        $this->Session->setFlash(__('The note has been saved.'), 'modal_default');
+        return $this->redirect(array('controller' => 'tasks', 'action' => 'view', $taskId));
       } else {
         $this->Session->setFlash(__('The note could not be saved. Please, try again.'));
       }

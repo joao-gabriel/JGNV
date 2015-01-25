@@ -1,12 +1,13 @@
 <div class="tasks view">
   <h2><?php echo __('Task'); ?></h2>
-  
+
   <h3><?php echo h($task['Task']['name']); ?></h3>
-  
+
   <p>
-     <?php echo h(nl2br($task['Task']['description'])); ?>
+    <strong>Description:</strong><br />
+    <?php echo h(nl2br($task['Task']['description'])); ?>
   </p>
-  
+
   <dl class="bottom30">
     <dt><?php echo __('Created by'); ?></dt>
     <dd>
@@ -64,49 +65,28 @@
   </dl>
 </div>
 
-<?php 
+<?php
 echo $this->Form->postLink(
-        'Mark this Task as finished', 
-        array('action' => 'finish', $task['Task']['id']), 
-        array('class' => 'btn btn-success'), 
-        'Are you sure? This means you consider your job completely done with this task.'
+        'Mark this Task as finished', array('action' => 'finish', $task['Task']['id']), array('class' => 'btn btn-success'), 'Are you sure? This means you consider your job completely done with this task.'
 );
 ?>
 
 <div class="related bottom">
   <h3><?php echo __('Related Notes'); ?></h3>
-<?php if (!empty($task['Note'])): ?>
-    <table cellpadding = "0" cellspacing = "0">
-      <tr>
-        <th><?php echo __('Id'); ?></th>
-        <th><?php echo __('User Id'); ?></th>
-        <th><?php echo __('Task Id'); ?></th>
-        <th><?php echo __('Title'); ?></th>
-        <th><?php echo __('Content'); ?></th>
-        <th><?php echo __('Status'); ?></th>
-        <th><?php echo __('Created'); ?></th>
-        <th><?php echo __('Modified'); ?></th>
-        <th class="actions"><?php echo __('Actions'); ?></th>
-      </tr>
-  <?php foreach ($task['Note'] as $note): ?>
-        <tr>
-          <td><?php echo $note['id']; ?></td>
-          <td><?php echo $note['user_id']; ?></td>
-          <td><?php echo $note['task_id']; ?></td>
-          <td><?php echo $note['title']; ?></td>
-          <td><?php echo $note['content']; ?></td>
-          <td><?php echo $note['status']; ?></td>
-          <td><?php echo $this->Time->nice($note['created']); ?></td>
-          <td><?php echo $this->Time->nice($note['modified']); ?></td>
-          <td class="actions">
-    <?php echo $this->Html->link(__('View'), array('controller' => 'notes', 'action' => 'view', $note['id'])); ?>
-    <?php echo $this->Html->link(__('Edit'), array('controller' => 'notes', 'action' => 'edit', $note['id'])); ?>
-    <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'notes', 'action' => 'delete', $note['id']), array(), __('Are you sure you want to delete # %s?', $note['id'])); ?>
-          </td>
-        </tr>
-          <?php endforeach; ?>
-    </table>
-<?php else: ?>
+  <?php if (!empty($task['Note'])): ?>
+    <ul>
+      <?php foreach ($task['Note'] as $note): ?>
+        <li class="bottom30">
+          <p>At <?php echo $this->Time->nice($note['created']); ?>, <?php echo $note['User']['name']; ?> wrote: </p>
+          <p>
+            <strong><?php echo $note['title']; ?></strong><br />
+            <?php echo nl2br($note['content']); ?>
+          </p>
+
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php else: ?>
 
     <strong>No Related Notes</strong>
   <?php endif; ?>

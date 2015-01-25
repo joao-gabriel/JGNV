@@ -249,7 +249,7 @@ class UsersController extends AppController {
           'Activity' => array(
               'user_id' => $userId,
               'type' => _ACTIVITY_TYPE_STOP_TASK,
-              'model' => 'User',
+              'model' => 'Task',
               'model_id' => $tasks['Taskto']['id'],
               'parent_id' => $tasks['Activity'][0]['id'],
               'from' => $this->request->clientIp(false)
