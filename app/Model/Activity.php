@@ -12,6 +12,8 @@ App::uses('AppModel', 'Model');
  */
 class Activity extends AppModel {
 
+  public $actsAs = array('Containable');
+  
   /**
    * Validation rules
    *

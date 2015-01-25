@@ -13,6 +13,9 @@ App::uses('AppModel', 'Model');
  */
 class Task extends AppModel {
 
+  
+  public $actsAs = array('Containable');
+  
   /**
    * Validation rules
    *

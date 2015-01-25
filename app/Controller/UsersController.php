@@ -151,7 +151,6 @@ class UsersController extends AppController {
 //          ));
 //          $this->User->Activity->save($data);
 //        }
-
         // Create an Activity for this login
         $this->User->Activity->create();
         $data = array('Activity' => array(
@@ -161,7 +160,7 @@ class UsersController extends AppController {
                 'model_id' => AuthComponent::user('id'),
                 'from' => $this->request->clientIp(false)
         ));
-        $salvou = $this->User->Activity->save($data);
+        $this->User->Activity->save($data);
 
         return $this->redirect($this->Auth->redirect());
       } else {
@@ -218,10 +217,45 @@ class UsersController extends AppController {
               'parent_id' => $lastLoginActivity['Activity']['id'],
               'from' => $this->request->clientIp(false)
       ));
-
-      // TODO: When logging out, also create a register of "STOP" for all the active tasks of this user
-
       $this->User->Activity->save($data);
+
+      // When logging out, also setup any running task to this user as PAUSED
+      // To do so, first retrieve any running task and its most recent related START_TASK activity
+      $options = array(
+          'conditions' => array(
+              'Taskto.status' => _TASK_STATUS_RUNNING,
+              'Taskto.recipient_id' => $userId,
+          ),
+          'contain' => array(
+              'Activity' => array(
+                  'conditions' => array(
+                      'Activity.type' => _ACTIVITY_TYPE_START_TASK
+                  ),
+                  'order' => 'created DESC',
+                  'limit' => 1
+              )
+          )
+      );
+      $this->User->Taskto->recursive = -1;
+      $tasks = $this->User->Taskto->find('first', $options);
+     
+      // Update task status
+      $this->User->Taskto->id = $tasks['Taskto']['id'];
+      $this->User->Taskto->saveField('status', _TASK_STATUS_PAUSED);
+
+      // and create a register of "_ACTIVITY_TASK_STOP" for it      
+      $this->User->Taskto->Activity->create();
+      $tasktoActivityData = array(
+          'Activity' => array(
+              'user_id' => $userId,
+              'type' => _ACTIVITY_TYPE_STOP_TASK,
+              'model' => 'User',
+              'model_id' => $tasks['Taskto']['id'],
+              'parent_id' => $tasks['Activity'][0]['id'],
+              'from' => $this->request->clientIp(false)
+      ));
+
+      $this->User->Taskto->Activity->save($tasktoActivityData);
 
       return $this->redirect(array('controller' => 'users', 'action' => 'login'));
     }
@@ -250,7 +284,15 @@ class UsersController extends AppController {
                     'ActivityOwned.*'
                 )
             ),
-            'Taskto' => array('limit' => 10, 'order' => 'Taskto.created DESC'),
+            'Taskto' => array(
+                'conditions' => array(
+                    array('Taskto.status != ' => _TASK_STATUS_CANCELLED),
+                    array('Taskto.status != ' => _TASK_STATUS_DELETED),
+                    array('Taskto.status != ' => _TASK_STATUS_DENIED)
+                ),
+                'limit' => 10,
+                'order' => 'Taskto.expected_deadline ASC'
+            ),
             'Taskto.Project.name',
         ),
         'fields' => array('id')

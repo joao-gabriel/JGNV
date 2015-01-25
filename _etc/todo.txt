@@ -6,6 +6,7 @@ User::view
 
 User::logout
   Criar uma activity "logout" no banco OK
+  Stop any running task OK
 
 Activities::index
   Show Type name OK
@@ -13,17 +14,22 @@ Activities::index
 User::add
   Não permitir cadastro de um username existente OK
 
-User::login
-  Criar uma activity "login" no banco OK
-  Verificar se existe uma activity de login do mesmo IP e criar uma activity de logout 
-  Criar uma activity de falha de login no banco
-
 User::dashboard
   Menu lateral responsivo OK
   Listagem de atividades recentes. OK
-  Listagem de tarefas recentes (não completadas). (50%)
   Clicar para iniciar uma tarefa OK
   Pausar tarefa OK
+  Listagem de tarefas recentes (não completadas). OK
+
+
+User::login
+  Criar uma activity "login" no banco OK
+  Criar uma activity de falha de login no banco OK
+  Verificar se existe uma activity de login do mesmo IP e criar uma activity de logout 
+  
+User::logout
+  Criar uma activity "STOP" para qualquer Task que esteja sendo executada
+
 
 Task::view
   Bug fix: Fix association bug between activity OK (it was a typO ¬¬)
