@@ -13,9 +13,8 @@ App::uses('AppModel', 'Model');
  */
 class Task extends AppModel {
 
-  
   public $actsAs = array('Containable');
-  
+
   /**
    * Validation rules
    *
@@ -179,52 +178,85 @@ class Task extends AppModel {
     return array('task' => $task, 'activity' => $activity);
   }
 
-  public function pause($ip = null, $id = null) {
+  
+    /**
+   * pause method
+   * 
+   * If no $id is supplied, the method will try to pause the first running task found
+   * If no $recipientId is supplied, the method will try to pause tasks assigned to the loggedin user
+   * 
+   * @param string ip
+   * @param int $id
+   * @param int $recipientId
+   * @return string
+   */
+  
+  public function pause($ip = null, $id = null, $recipientId = null) {
 
-    $conditions = array(
-        'Task.recipient_id' => AuthComponent::user('id'),
-        'Task.status' => _TASK_STATUS_RUNNING);
-
-    if (is_numeric($id)){
-      $conditions['Task.id'] = $id;
-    }
-    
-    $runningTask = $this->find('first', array(
-        'conditions' => $conditions
-    ));
-
-    if (count($runningTask) > 0) {
-      $this->Activity->create();
-      $data = array('Activity' => array(
-              'user_id' => AuthComponent::user('id'),
-              'type' => _ACTIVITY_TYPE_STOP_TASK,
-              'model' => 'Task',
-              'model_id' => $runningTask['Task']['id'],
-              'from' => $ip
-      ));
-
-      $activity = $this->Activity->save($data);
-
-      if (!$activity) {
-        return false;
+    if (is_null($recipientId)) {
+      $logged = AuthComponent::user('id');
+      if (empty($logged)){
+        die('No User ID to pause task');
       }
-      $this->id = $runningTask['Task']['id'];
+      $recipientId = AuthComponent::user('id');
+    }
+
+    $options = array(
+        'conditions' => array(
+            'Task.recipient_id' => $recipientId
+        ),
+        'contain' => array(
+            'Activity' => array(
+                'order' => 'created DESC',
+                'limit' => 1
+            )
+        )
+    );
+
+    if (is_null($id)) {
+      $options['conditions']['Task.status'] = _TASK_STATUS_RUNNING;
+    } else {
+      $options['conditions']['Task.id'] = $id;
+    }
+
+    $this->recursive = -1;
+    $task = $this->find('first', $options);
+
+    if (!empty($task)) {
+
+      // Update task status
+      $this->id = $task['Task']['id'];
       if (!$this->saveField('status', _TASK_STATUS_PAUSED)) {
         return false;
       }
-      return array('task' => $runningTask, 'activity' => $activity);
+
+      // and create a register of "_ACTIVITY_TASK_STOP" for it      
+      $this->Activity->create();
+      $tasktoActivityData = array(
+          'Activity' => array(
+              'user_id' => $recipientId,
+              'type' => _ACTIVITY_TYPE_STOP_TASK,
+              'model' => 'Task',
+              'model_id' => $task['Task']['id'],
+              'parent_id' => $task['Activity'][0]['id'],
+              'from' => $ip
+      ));
+
+      $activity = $this->Activity->save($tasktoActivityData);
+
+      return array('task' => $task, 'activity' => $activity);
     }
-    return true;
   }
 
-   /**
+  /**
    * calcTaskTime method
-   * @params $taskId
-   * @return int
+   * @param int $taskId
+   * @param int $userId
+   * @return string
    */
-  public function calcTaskTime($taskId){
-    return $this->Activity->calcActivityTime($this->alias, $taskId, _ACTIVITY_TYPE_START_TASK, _ACTIVITY_TYPE_STOP_TASK);
+  public function calcTaskTime($taskId, $userId = NULL) {
+    return $this->Activity->calcActivityTime($this->alias, $taskId, _ACTIVITY_TYPE_START_TASK, _ACTIVITY_TYPE_STOP_TASK, $userId);
   }
-  
-  
+
 }
+

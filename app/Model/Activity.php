@@ -13,7 +13,7 @@ App::uses('AppModel', 'Model');
 class Activity extends AppModel {
 
   public $actsAs = array('Containable');
-  
+
   /**
    * Validation rules
    *
@@ -114,18 +114,18 @@ class Activity extends AppModel {
       )
   );
 
-   /**
+  /**
    * calcActivityTime method
    *
    * @param int $model
    * @param int $modelId
    * @param int $startType
    * @param int $stopType
-   *
+   * @param int $userId
    * @return string
    */
-  public function calcActivityTime($model, $modelId, $startType, $stopType)  {
-     
+  public function calcActivityTime($model, $modelId, $startType, $stopType, $userId = NULL) {
+
     $options = array(
         'conditions' => array(
             'Activity.model' => $model,
@@ -138,18 +138,29 @@ class Activity extends AppModel {
                 'alias' => 'StopActivity',
                 'type' => 'INNER',
                 'conditions' => array(
-                    'StopActivity.parent_id = Activity.id'
+                    'StopActivity.parent_id = Activity.id',
+                    'StopActivity.type' => $stopType
                 )
             )
         ),
         'fields' => array(
-            'sec_to_time(sum(TIME_TO_SEC(timediff(StopActivity.created, Activity.created)))) as timeElapsed'
+            'sec_to_time(sum(time_to_sec(timediff(StopActivity.created, Activity.created)))) as timeElapsed'
         )
     );
+
+    if (!is_null($userId)) {
+      $options['conditions']['Activity.user_id'] = $userId;
+      $options['joins'][0]['conditions']['StopActivity.user_id'] = $userId;
+    }
+
     $this->recursive = -1;
     $total = $this->find('first', $options);
-    
-    return $total[0]['timeElapsed'];
-    
+
+    if (is_null($total[0]['timeElapsed'])) {
+      return '00:00:00';
+    } else {
+      return $total[0]['timeElapsed'];
+    }
   }
+
 }

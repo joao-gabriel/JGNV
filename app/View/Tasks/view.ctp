@@ -9,10 +9,18 @@
   </p>
 
   <p>
+    <strong>This task has been worked for:</strong><br />
+    <?php echo date('H',strtotime($task['totalTimeElapsed'])); ?> hours, 
+    <?php echo date('i',strtotime($task['totalTimeElapsed'])); ?> minutes and 
+    <?php echo date('s',strtotime($task['totalTimeElapsed'])); ?> seconds
+  </p>
+  
+  
+  <p>
     <strong>You've been working in this task for:</strong><br />
-    <?php echo date('H',strtotime($task['timeElapsed'])); ?> hours, 
-    <?php echo date('i',strtotime($task['timeElapsed'])); ?> minutes and 
-    <?php echo date('s',strtotime($task['timeElapsed'])); ?> seconds
+    <?php echo date('H',strtotime($task['userTimeElapsed'])); ?> hours, 
+    <?php echo date('i',strtotime($task['userTimeElapsed'])); ?> minutes and 
+    <?php echo date('s',strtotime($task['userTimeElapsed'])); ?> seconds
   </p>
 
   <dl class="bottom30">

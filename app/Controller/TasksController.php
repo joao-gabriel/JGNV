@@ -52,7 +52,8 @@ class TasksController extends AppController {
         
         );
     $task = $this->Task->find('first', $options);
-    $task['timeElapsed'] = $this->Task->calcTaskTime($task['Task']['id']);
+    $task['userTimeElapsed'] = $this->Task->calcTaskTime($task['Task']['id'], AuthComponent::user('id'));
+    $task['totalTimeElapsed'] = $this->Task->calcTaskTime($task['Task']['id']);
     
     $this->set('task', $task);
   }
@@ -130,7 +131,7 @@ class TasksController extends AppController {
   public function start($id) {
     $this->autoRender = false;
 
-    // First, pause any ongoing task
+    // First, pause any ongoing task for this user
     $this->Task->pause($this->request->clientIp(false));
 
     $started = $this->Task->start($id, $this->request->clientIp(false));

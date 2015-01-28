@@ -120,37 +120,7 @@ class UsersController extends AppController {
     if ($this->request->is('post')) {
       if ($this->Auth->login()) {
 
-//        // TODO: Check if theres an active login (no corresponding logout Activity) on database from this IP address
-//        $this->User->Activity->recursive = -1;
-//        $activeLogin = $this->User->Activity->find('first', array(
-//            'conditions' => array(
-//                'id NOT IN (
-//                  SELECT parent_id FROM activities WHERE 
-//                    `user_id` = ' . AuthComponent::user('id') . ' AND
-//                    `type` = ' . _ACTIVITY_TYPE_LOGIN . ' AND
-//                    `model` = "User" AND
-//                    `model_id` = ' . AuthComponent::user('id') . ' AND
-//                    "from" = "' . addslashes($this->request->clientIp(false)) . '"
-//                  ORDER BY created DESC
-//                  )'
-//            )
-//        ));
-//
-//        die();
-//        
-//        // If there is, create a logout Activity for it 
-//        if (count($activeLogin) > 0) {
-//          $this->User->Activity->create();
-//          $data = array('Activity' => array(
-//                  'user_id' => AuthComponent::user('id'),
-//                  'type' => _ACTIVITY_TYPE_LOGOUT, // Start of an Activity
-//                  'model' => 'User',
-//                  'model_id' => AuthComponent::user('id'),
-//                  'from' => $this->request->clientIp(false),
-//                  'parent_id' => $activeLogin['Activity']['id']
-//          ));
-//          $this->User->Activity->save($data);
-//        }
+        // TODO: Check if theres an active login (no corresponding logout Activity) on database from this IP address
         // Create an Activity for this login
         $this->User->Activity->create();
         $data = array('Activity' => array(
@@ -204,10 +174,12 @@ class UsersController extends AppController {
               'Activity.user_id' => $userId,
               'Activity.model' => 'User',
               'Activity.model_id' => $userId,
-              'Activity.from' => $this->request->clientIp(false)
+              'Activity.from' => $this->request->clientIp(false),
+              'Activity.type' => _ACTIVITY_TYPE_LOGIN
           ),
           'order' => 'Activity.created DESC'));
 
+      // Create a logout activity
       $this->User->Activity->create();
       $data = array('Activity' => array(
               'user_id' => $userId,
@@ -219,43 +191,8 @@ class UsersController extends AppController {
       ));
       $this->User->Activity->save($data);
 
-      // When logging out, also setup any running task to this user as PAUSED
-      // To do so, first retrieve any running task and its most recent related START_TASK activity
-      $options = array(
-          'conditions' => array(
-              'Taskto.status' => _TASK_STATUS_RUNNING,
-              'Taskto.recipient_id' => $userId,
-          ),
-          'contain' => array(
-              'Activity' => array(
-                  'conditions' => array(
-                      'Activity.type' => _ACTIVITY_TYPE_START_TASK
-                  ),
-                  'order' => 'created DESC',
-                  'limit' => 1
-              )
-          )
-      );
-      $this->User->Taskto->recursive = -1;
-      $tasks = $this->User->Taskto->find('first', $options);
-     
-      // Update task status
-      $this->User->Taskto->id = $tasks['Taskto']['id'];
-      $this->User->Taskto->saveField('status', _TASK_STATUS_PAUSED);
-
-      // and create a register of "_ACTIVITY_TASK_STOP" for it      
-      $this->User->Taskto->Activity->create();
-      $tasktoActivityData = array(
-          'Activity' => array(
-              'user_id' => $userId,
-              'type' => _ACTIVITY_TYPE_STOP_TASK,
-              'model' => 'Task',
-              'model_id' => $tasks['Taskto']['id'],
-              'parent_id' => $tasks['Activity'][0]['id'],
-              'from' => $this->request->clientIp(false)
-      ));
-
-      $this->User->Taskto->Activity->save($tasktoActivityData);
+      // Pause any taks assigned to this user
+      $this->User->Task->pause($this->request->clientIp(false), null, $userId);
 
       return $this->redirect(array('controller' => 'users', 'action' => 'login'));
     }
