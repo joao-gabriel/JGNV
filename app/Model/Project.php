@@ -85,13 +85,14 @@ class Project extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'User' => array(
+		'Author' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
+		),
+      'Client'
 	);
 
 /**
@@ -115,26 +116,11 @@ class Project extends AppModel {
 		)
 	);
 
-
 /**
  * hasAndBelongsToMany associations
  *
  * @var array
  */
-	public $hasAndBelongsToMany = array(
-		'Task' => array(
-			'className' => 'Task',
-			'joinTable' => 'projects_tasks',
-			'foreignKey' => 'project_id',
-			'associationForeignKey' => 'task_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		)
-	);
+	public $hasAndBelongsToMany = array('User');
 
 }

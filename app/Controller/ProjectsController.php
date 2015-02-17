@@ -47,7 +47,11 @@ class ProjectsController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+      
 			$this->Project->create();
+      
+      $this->request->data['Project']['user_id'] = AuthComponent::user('id');
+      
 			if ($this->Project->save($this->request->data)) {
 				$this->Session->setFlash(__('The project has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -56,8 +60,8 @@ class ProjectsController extends AppController {
 			}
 		}
 		$users = $this->Project->User->find('list');
-		$tasks = $this->Project->Task->find('list');
-		$this->set(compact('users', 'tasks'));
+    $clients = $this->Project->Client->find('list');
+		$this->set(compact('users', 'clients'));
 	}
 
 /**
@@ -72,6 +76,9 @@ class ProjectsController extends AppController {
 			throw new NotFoundException(__('Invalid project'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+      
+      $this->request->data['Project']['user_id'] = AuthComponent::user('id');
+      
 			if ($this->Project->save($this->request->data)) {
 				$this->Session->setFlash(__('The project has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -83,8 +90,8 @@ class ProjectsController extends AppController {
 			$this->request->data = $this->Project->find('first', $options);
 		}
 		$users = $this->Project->User->find('list');
-		$tasks = $this->Project->Task->find('list');
-		$this->set(compact('users', 'tasks'));
+    $clients = $this->Project->Client->find('list');
+		$this->set(compact('users', 'clients'));
 	}
 
 /**

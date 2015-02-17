@@ -8,7 +8,7 @@
 		echo $this->Form->input('password');
 		echo $this->Form->input('role');
 		echo $this->Form->input('tokenhash');
-		echo $this->Form->input('tokenhash_date');
+		echo $this->Form->input('tokenhash_date', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
 		echo $this->Form->input('name');
 		echo $this->Form->input('email');
 		echo $this->Form->input('Team');

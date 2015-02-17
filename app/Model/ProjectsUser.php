@@ -1,12 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * ProjectsTask Model
+ * ProjectsUser Model
  *
  * @property Project $Project
- * @property Task $Task
+ * @property User $User
  */
-class ProjectsTask extends AppModel {
+class ProjectsUser extends AppModel {
 
 /**
  * Validation rules
@@ -15,16 +15,6 @@ class ProjectsTask extends AppModel {
  */
 	public $validate = array(
 		'project_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'task_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -51,9 +41,9 @@ class ProjectsTask extends AppModel {
 			'fields' => '',
 			'order' => ''
 		),
-		'Task' => array(
-			'className' => 'Task',
-			'foreignKey' => 'task_id',
+		'User' => array(
+			'className' => 'User',
+			'foreignKey' => 'user_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

@@ -22,4 +22,92 @@ and open the template in the editor.
 .bottom17 { margin-bottom:17px; }
 .bottom30 { margin-bottom:30px; }
 
+.mr20 { margin-right: 20px;}
+
+.ml20 {margin-left: 20px;}
+
 dd { margin-bottom: 20px;}
+
+/*.message { font-size: 150%;}*/
+
+.boolean input[type=checkbox]{
+  position: relative;
+  margin-left: 0px;
+}
+
+.boolean label {
+  display: inline !important;
+  font-weight: 700;
+  padding-left: 10px;
+}
+
+
+@media (max-width: 1024px) {
+  .table-responsive-warning {
+    display: block !important;
+  }
+}
+
+.now {
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
+  bottom: 0;
+  left: 0;
+  min-height: 40px;
+  background: #ccc;
+  padding: 10px 40px 15px;
+  border-top: 1px solid;
+}
+
+
+#menu-lateral-btn{
+  top: 0px;
+  left: 0px;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+#sidebar {
+  top: 40px;
+}
+
+.error-message {
+  text-transform: uppercase;
+  color: #d00;
+  font-weight: bold;
+
+  -webkit-animation-name: blinker;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+
+  -moz-animation-name: blinker;
+  -moz-animation-duration: 1s;
+  -moz-animation-timing-function: linear;
+  -moz-animation-iteration-count: infinite;
+
+  animation-name: blinker;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@-moz-keyframes blinker {  
+  0% { opacity: 1.0; }
+50% { opacity: 0.0; }
+100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+  0% { opacity: 1.0; }
+50% { opacity: 0.0; }
+100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+  0% { opacity: 1.0; }
+50% { opacity: 0.0; }
+100% { opacity: 1.0; }
+}

@@ -3,15 +3,13 @@
 	<fieldset>
 		<legend><?php echo __('Add Project'); ?></legend>
 	<?php
-		echo $this->Form->input('user_id');
+  	echo $this->Form->input('Client');
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
-		echo $this->Form->input('expected_start_date');
-		echo $this->Form->input('expected_deadline');
-		echo $this->Form->input('start_date');
-		echo $this->Form->input('finish_date');
-		echo $this->Form->input('status');
-		echo $this->Form->input('Task');
+		echo $this->Form->input('expected_start_date', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
+		echo $this->Form->input('expected_deadline', array('type' => 'text', 'class' => 'datefield', 'readonly' => true));
+		echo $this->Form->input('status', array('value' => 0));
+    echo $this->Form->input('User', array('label' => 'Users (hold CTRL to select more than one)'));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
