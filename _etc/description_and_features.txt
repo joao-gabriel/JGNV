@@ -1,0 +1,29 @@
+Description and features;
+
+
+0. Login Page:
+	Displays a form with 2 fields (username and password) and a button.
+	Depending on the user role he can be sent to Common user ( or Admin 
+	
+
+
+1. Common user:
+
+	1.1 Top menu:
+		
+		1.1.1 Dashboard:
+			Takes the user to Dashboard page (#1.2)
+
+		1.1.2 Profile:
+			Takes the user to Profile Edit page (#1.3)
+
+		1.1.3 Logout:
+			Asks if user is sure about logging out, if he/she is, logout the user and takes him/her back to login page (#0).
+
+	1.2. Dashboard: 
+
+		1.2.1 Atividade recentes:
+			Lista o nome da atividade e a data e hora que foi realizada.
+			Atividades listadas: Login, Logout, Start Task, Pause Task.
+
+		1.2.2 Tarefas designadas para o usuário:
