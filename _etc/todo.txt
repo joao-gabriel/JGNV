@@ -1,4 +1,3 @@
-
 Activities::index
   Show Type name OK
 
@@ -12,7 +11,6 @@ User::logout
   Criar uma activity "logout" no banco OK
   Stop any running task OK
 
-
 User::add
   Não permitir cadastro de um username existente OK
 
@@ -22,7 +20,6 @@ User::dashboard
   Clicar para iniciar uma tarefa OK
   Pausar tarefa OK
   Listagem de tarefas recentes (não completadas). OK
-
 
 Note::add
   Adicionar uma nota à uma tarefa
@@ -43,5 +40,8 @@ User::login
   Verificar se existe uma activity de login do mesmo IP e criar uma activity de logout 
   
 
+General:
+Keep all Docs, issues, and comments in english.
+Do a research about cakePHP admin routes and how it can be useful to this sytem.
 
 
