@@ -74,7 +74,7 @@ class DATABASE_CONFIG {
       'database' => 'jgnv',
       'prefix' => '',
       'encoding' => 'utf8',
-      'unix_socket' => '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
+//      'unix_socket' => '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
   );
   public $test = array(
       'datasource' => 'Database/Mysql',
